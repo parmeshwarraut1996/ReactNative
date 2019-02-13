@@ -5,30 +5,44 @@ import { Platform, StyleSheet, Text, View, TextInput, Button, Image } from 'reac
 export default StyleSheet.create({
     container: {
         backgroundColor: 'white',
-        // marginTop:1,
+
         flex: 1,
         borderColor: 'grey',
         justifyContent: 'center',
         alignItems: 'center',
         flexDirection: 'column',
-        // marginLeft:10,
-        // marginRight: 10,
+
         paddingBottom: 13,
         borderBottomWidth: StyleSheet.hairlineWidth,
-        //marginBottom:3,
 
     },
+
     textBorder: {
         borderWidth: StyleSheet.hairlineWidth,
         marginTop: 10
 
     },
-    btnReg:{
-       
+    btnLoginView: {
+        flexDirection: 'row'
+    },
+    btnLogin: {
+        width: 100
+    },
+    txtForgetView: {
+        marginLeft: 50,
+    },
+    txtForget: {
+        marginRight: 100,
+        color: 'blue',
+        marginTop: 50
+
+    },
+    btnReg: {
+
         width: 100,
         marginTop: 10,
-        alignItems:'center'
- 
+        alignItems: 'center'
+
 
     },
     txtBorder: {
@@ -37,7 +51,7 @@ export default StyleSheet.create({
     },
     FirstAndLast: {
         flexDirection: 'row',
-        justifyContent: 'space-between'
+        justifyContent: 'space-between',
     },
     reg: {
 
@@ -136,9 +150,25 @@ export default StyleSheet.create({
         borderWidth: StyleSheet.hairlineWidth,
 
     },
-    headerStyle: {
+    containerMain: {
+        flex: 1,
 
 
+    },
+
+    bottomView: {
+        borderWidth: 0,
+
+    },
+
+    b: {
+
+        position: 'relative',
+        padding: 10
+    },
+    margin:{
+
+        marginLeft:10
     }
 
 

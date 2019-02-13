@@ -4,7 +4,7 @@ import { TextField } from 'react-native-material-textfield';
 import { Card } from 'react-native-elements';
 import styles from '../stylesheet.js'
 import { getUser, checkLogin } from '../services/databasecontroller.js';
-import Snackbar, {  LENGTH_SHORT } from 'react-native-snackbar';
+import Snackbar, { LENGTH_SHORT } from 'react-native-snackbar';
 
 
 
@@ -15,7 +15,7 @@ export default class Login extends Component {
         this.state = {
             Username: '',
             Password: '',
-            errUsername:'',
+            errUsername: '',
             errPassword: '',
             visible: false,
             message: ''
@@ -27,7 +27,7 @@ export default class Login extends Component {
 
     validate = () => {
         var flag = false;
-       
+
         /**
          * array of errors to define helper text
          */
@@ -84,30 +84,30 @@ export default class Login extends Component {
     }
 
     openforgot(event) {
-        this.props.navigation.navigate('forget')
+        this.props.navigation.navigate('forget');
 
     }
     navigateRegister(event) {
-        this.props.navigation.navigate('registration')
+        this.props.navigation.navigate('registration');
     }
     onSubmit = async event => {
-       // getUser(this.state.Username);
+        // getUser(this.state.Username);
 
         if (!this.validate()) {
-            var auth = await checkLogin(this.state.Username,this.state.Password);
-            if(auth){
+            var auth = await checkLogin(this.state.Username, this.state.Password);
+            if (auth) {
 
                 Snackbar.show({
-                    title:"Login failed",
-                    duration:Snackbar.LENGTH_SHORT,
-                    action:{
-                        title:'Error',
-                        color:'red'
+                    title: "Login failed",
+                    duration: Snackbar.LENGTH_SHORT,
+                    action: {
+                        title: 'Error',
+                        color: 'red'
                     }
                 })
 
             }
-            else{
+            else {
                 Snackbar.show({
                     title: "Successful login",
                     duration: Snackbar.LENGTH_SHORT,
@@ -118,21 +118,24 @@ export default class Login extends Component {
                 });
 
                 this.setState({
-                    Username:'',
-                    Password:''
+                    Username: '',
+                    Password: ''
                 })
+                this.props.navigation.navigate('dashboard');
 
             }
+
+           
 
 
         }
         else {
             Snackbar.show({
-                title:"Enter valid data",
-                duration:LENGTH_SHORT,
-                action:{
-                    title:'Error',
-                    color:'red'
+                title: "Enter valid data",
+                duration: LENGTH_SHORT,
+                action: {
+                    title: 'Error',
+                    color: 'red'
                 }
             })
 
@@ -146,66 +149,66 @@ export default class Login extends Component {
 
         return (
 
-<ScrollView>
+            <ScrollView>
 
-            <View style={styles.container}>
+                <View style={styles.container}>
 
-                <Card>
-                    <View>
+                    <Card>
+                        <View>
 
-                        <View style={styles.textinput}>
+                            <View style={styles.textinput}>
 
-                            <TextField
+                                <TextField
 
-                                label='Username'
-                                placeholder='Enter Email Id'
-                                value={this.state.Username}
-                                error={this.state.errUsername}
-                                onChangeText={(Username) => this.setState({ Username })}
-
-
-                            />
+                                    label='Username'
+                                    placeholder='Enter Email Id'
+                                    value={this.state.Username}
+                                    error={this.state.errUsername}
+                                    onChangeText={(Username) => this.setState({ Username })}
 
 
-                            <TextField
-
-                                placeholder='Enter Password'
-                                label='Password'
-                                secureTextEntry={true}
-                                value={this.state.Password}
-                                error={this.state.errPassword}
-                                onChangeText={(Password) => this.setState({ Password })}
+                                />
 
 
-                            />
-                        </View>
-                        <View style={{ flexDirection: 'row' }} >
-                            <View style={{ width: 100 }}>
-                                <Button title='login' onPress={() => this.onSubmit()}
-                                ></Button>
+                                <TextField
+
+                                    placeholder='Enter Password'
+                                    label='Password'
+                                    secureTextEntry={true}
+                                    value={this.state.Password}
+                                    error={this.state.errPassword}
+                                    onChangeText={(Password) => this.setState({ Password })}
+
+
+                                />
+                            </View>
+                            <View style={styles.btnLoginView} >
+                                <View style={styles.btnLogin}>
+                                    <Button title='login' onPress={() => this.onSubmit()}
+                                    ></Button>
+                                </View>
+
+
+                            </View>
+                            <View style={styles.txtForgetView}>
+                                <Text style={styles.txtForget} onPress={(event) => this.openforgot(event)}>forgot Password ?</Text>
+
                             </View>
 
+                            <View style={styles.signit}>
+                                <View>
+                                    <Text>Not yet registered? </Text>
+                                </View>
+                                <View>
+                                    <Text style={{ color: 'blue' }} onPress={(event) => this.navigateRegister(event)}>SignUp</Text>
+                                </View>
 
-                        </View>
-                        <View style={{ marginLeft: 50 }}>
-                            <Text style={{ marginRight: 100, color: 'blue', marginTop: 50 }} onPress={(event) => this.openforgot(event)}>forgot Password ?</Text>
-
-                        </View>
-
-                        <View style={styles.signit}>
-                            <View>
-                                <Text>Not yet registered? </Text>
-                            </View>
-                            <View>
-                                <Text style={{ color: 'blue' }} onPress={(event) => this.navigateRegister(event)}>SignUp</Text>
                             </View>
 
                         </View>
 
-                    </View>
-
-                </Card>
-            </View>
+                    </Card>
+                </View>
             </ScrollView>
 
         );

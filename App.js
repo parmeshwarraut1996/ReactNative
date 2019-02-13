@@ -6,7 +6,8 @@ import { createStackNavigator, createAppContainer } from "react-navigation";
 import AppNavigator from './src/router.js'
 import Style from './src/stylesheet.js'
 import LoginPage from './src/pages/loginpage.js';
-import Dashboard from './src/pages/dasboard.js';
+import Dashboard from './src/components/dashboard.js';
+
 //import Login from './src/components/login.js';
 
 
@@ -20,7 +21,7 @@ export default class App extends Component {
    
     return (
     
- <AppContainer/>
+ <Dashboard/>
       
 
 

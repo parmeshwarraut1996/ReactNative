@@ -4,12 +4,14 @@ import { createStackNavigator, createAppContainer } from "react-navigation";
 import Login from "./components/login";
 import Registration from "./components/registration";
 import ForgetPassword from "./components/forgetpassword";
+import Dashboard from "./components/dashboard";
 
 const AppNavigator = createStackNavigator(
     {
         login: Login,
         registration:Registration,
-        forget:ForgetPassword
+        forget:ForgetPassword,
+        dashboard:Dashboard
         
     },
     {
