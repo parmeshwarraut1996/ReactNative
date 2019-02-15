@@ -79,6 +79,18 @@ export default StyleSheet.create({
         justifyContent: 'space-between',
         marginRight: 10
     },
+    IconArrow:
+    {
+        height: 30,
+        width: 30,
+        marginLeft: 5,
+    },
+    IconExtra:
+    {
+        height: 25,
+        width: 25,
+        marginLeft: 5,
+    },
     Icon:
     {
         height: 35,
@@ -169,7 +181,12 @@ export default StyleSheet.create({
     margin:{
 
         marginLeft:10
-    }
+    },
+     bottomMore: {
+
+        position: 'relative',
+        marginBottom:25
+    },
 
 
 

@@ -13,7 +13,11 @@ export default class Dashboard extends Component {
         this.state = {
 
         }
-        console.disableYellowBox = true;
+     console.disableYellowBox = true;
+    }
+
+    navigateNote(event){
+        this.props.navigation.navigate('note');
     }
 
     render() {
@@ -49,8 +53,9 @@ export default class Dashboard extends Component {
                     <View style={styles.FirstAndLast}>
                         <View>
 
-                            <TouchableOpacity onPress={this.onPress}>
-                                <Text style={styles.margin}>
+                            <TouchableOpacity onPress={(event) => this.navigateNote(event)}>
+                                <Text style={styles.margin}
+                                    >
                                     Take a note...
                                     </Text>
                             </TouchableOpacity>
