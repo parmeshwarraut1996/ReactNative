@@ -185,8 +185,35 @@ export default StyleSheet.create({
      bottomMore: {
 
         position: 'relative',
-        marginBottom:25
+        marginBottom:0
     },
+    IconMore:
+    {
+        height: 30,
+        width: 30,
+        marginLeft: 5,
+    },
+    IconMoreComp:
+    {
+        height: 30,
+        
+        marginLeft: 10,
+    },
+    MoreComponents:{
+        // flexDirection: 'row', 
+        marginTop: 5
+    },
+    MoreSroll:{
+        // elevation:1,
+        borderTopColor:'grey',
+        // height:150,
+        
+        
+    },
+    closeMore:{
+        height:0,
+        
+    }
 
 
 

@@ -149,9 +149,9 @@ export default class Login extends Component {
 
         return (
 
-            <ScrollView>
+            <ScrollView style={{flex:1}}>
 
-                <View style={styles.container}>
+                {/* <View style={styles.container}> */}
 
                     <Card>
                         <View>
@@ -161,7 +161,7 @@ export default class Login extends Component {
                                 <TextField
 
                                     label='Username'
-                                    placeholder='Enter Email Id'
+                                    placeholder=' Email           @gmail.com'
                                     value={this.state.Username}
                                     error={this.state.errUsername}
                                     onChangeText={(Username) => this.setState({ Username })}
@@ -208,7 +208,7 @@ export default class Login extends Component {
                         </View>
 
                     </Card>
-                </View>
+                {/* </View> */}
             </ScrollView>
 
         );

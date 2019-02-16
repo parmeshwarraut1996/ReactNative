@@ -15,8 +15,9 @@ export default async function getData(fname, lname, email, pass, cpass, contact)
     }
 
     console.warn("first name--- "+fname);
+    
 
-    let check = await Firebase.firebase.auth().createUserWithEmailAndPassword(email, pass).then(() => {
+     let check = await Firebase.firebase.auth().createUserWithEmailAndPassword(email, pass).then(() => {
 
        database.database.ref('/users').push(data);
 
