@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { Text, View, Image, TouchableOpacity, Picker, StyleSheet, ScrollView } from 'react-native';
 import styles from '../stylesheet.js'
-import DateTimePicker from 'react-native-modal-datetime-picker'
-import Dialog from 'react-native-dialog';
+
+
 
 export default class More extends Component {
     constructor() {
@@ -13,46 +13,49 @@ export default class More extends Component {
 
     }
     render() {
-        let a = this.props.m ? styles.closeMore : styles.MoreSroll
+        let a = this.props.m ? styles.MoreSroll : styles.closeMore;
         return (
-            <ScrollView>
-                <View style={a}>
+           
+                <ScrollView>
+                    <View style={a}>
 
-                    <View style={styles.MoreComponents}>
-                        <View style={{ flexDirection: 'row' }}>
-                            <Image style={styles.IconMore}
-                                source={require('../assets/trash.png')} />
+                        <View style={styles.MoreComponents}>
+                            <View style={{ flexDirection: 'row' }}>
+                                <Image style={styles.IconMore}
+                                    source={require('../assets/trash.png')} />
 
-                            <Text style={styles.IconMoreComp}>Delete</Text>
+                                <Text style={styles.IconMoreComp}>Delete</Text>
+                            </View>
                         </View>
-                    </View>
-                    <View style={styles.MoreComponents}>
-                        <View style={{ flexDirection: 'row' }}>
-                            <Image style={styles.IconMore}
-                                source={require('../assets/share.png')} />
+                        <View style={styles.MoreComponents}>
+                            <View style={{ flexDirection: 'row' }}>
+                                <Image style={styles.IconMore}
+                                    source={require('../assets/share.png')} />
 
-                            <Text style={styles.IconMoreComp}>Share</Text>
+                                <Text style={styles.IconMoreComp}>Share</Text>
+                            </View>
                         </View>
-                    </View>
-                    <View style={styles.MoreComponents}>
-                        <View style={{ flexDirection: 'row' }}>
-                            <Image style={styles.IconMore}
-                                source={require('../assets/collaborator.png')} />
+                        <View style={styles.MoreComponents}>
+                            <View style={{ flexDirection: 'row' }}>
+                                <Image style={styles.IconMore}
+                                    source={require('../assets/collaborator.png')} />
 
-                            <Text style={styles.IconMoreComp}>Collaborator</Text>
+                                <Text style={styles.IconMoreComp}>Collaborator</Text>
+                            </View>
                         </View>
-                    </View>
-                    <View style={styles.MoreComponents}>
-                        <View style={{ flexDirection: 'row' }}>
-                            <Image style={styles.IconMore}
-                                source={require('../assets/arrow.png')} />
-                            <Text style={styles.IconMoreComp}>label</Text>
+                        <View style={styles.MoreComponents}>
+                            <View style={{ flexDirection: 'row' }}>
+                                <Image style={styles.IconMore}
+                                    source={require('../assets/arrow.png')} />
+                                <Text style={styles.IconMoreComp}>label</Text>
+                            </View>
                         </View>
-                    </View>
 
-                </View >
-            </ScrollView>
+                   </View>
 
+
+                </ScrollView>
+          
         );
     }
 }

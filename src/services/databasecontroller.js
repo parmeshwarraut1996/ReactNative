@@ -194,11 +194,11 @@ export function getNotes(callback) {
     })
 
 }
-export function getLabel(callback) {
+export function getLabel() {
     database.database.ref('/label').orderByChild("user").equalTo(localStorage.getItem("userKey")).on("value", function (snap) {
         var value = snap.val();
         console.log("valueeee--", snap.val());
-        return callback(value);
+        return value;
 
 
     });

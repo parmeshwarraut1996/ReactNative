@@ -29,7 +29,7 @@ export default StyleSheet.create({
         width: 100
     },
     txtForgetView: {
-        marginLeft: 50,
+        marginLeft: 90,
     },
     txtForget: {
         marginRight: 100,
@@ -178,14 +178,14 @@ export default StyleSheet.create({
         position: 'relative',
         padding: 10
     },
-    margin:{
+    margin: {
 
-        marginLeft:10
+        marginLeft: 10
     },
-     bottomMore: {
+    bottomMore: {
 
         position: 'relative',
-        marginBottom:0
+        marginBottom: 0
     },
     IconMore:
     {
@@ -196,24 +196,45 @@ export default StyleSheet.create({
     IconMoreComp:
     {
         height: 30,
-        
+
         marginLeft: 10,
     },
-    MoreComponents:{
+    MoreComponents: {
         // flexDirection: 'row', 
         marginTop: 5
     },
-    MoreSroll:{
-        // elevation:1,
-        borderTopColor:'grey',
-        // height:150,
-        
-        
+    MoreSroll: {
+
+        marginTop: 250,
+        height: 150,
+
+
     },
-    closeMore:{
-        height:0,
+    closeMore: {
+
+        height: 0
+
+
+    },
+    Showlist: {
+        width: 380,
+      
+        flexDirection: 'column',
         
-    }
+        borderRadius: 15
+
+    },
+    ShowCard: {
+        width: 160,
+
+        flexDirection: 'column',
+        
+       
+        
+        borderRadius: 15
+
+},
+   
 
 
 
