@@ -161,7 +161,7 @@ export default class Login extends Component {
                                 <TextField
 
                                     label='Username'
-                                    placeholder='  @gmail.com'
+                                    placeholder='Enter username'
                                     value={this.state.Username}
                                     error={this.state.errUsername}
                                     onChangeText={(Username) => this.setState({ Username })}

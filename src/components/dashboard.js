@@ -16,7 +16,7 @@ export default class Dashboard extends Component {
     }
 
     navigateNote(event) {
-        this.props.navigation.navigate('note');
+        this.props.navigation.navigate("note");
     }
     gridView(event) {
         this.setState({

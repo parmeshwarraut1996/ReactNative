@@ -218,23 +218,17 @@ export default StyleSheet.create({
     },
     Showlist: {
         width: 380,
-      
         flexDirection: 'column',
-        
         borderRadius: 15
 
     },
     ShowCard: {
-        width: 160,
-
+        width: 175,
         flexDirection: 'column',
-        
-       
-        
         borderRadius: 15
 
-},
-   
+    },
+
 
 
 
