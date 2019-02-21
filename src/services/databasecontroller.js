@@ -158,16 +158,15 @@ export async function insertNotes(title, description, isReminder, isCollaborator
         Pinned: isPinned,
         Trash: isTrash,
         label: label,
-        userid: localStorage.getItem("userKey")
-
+        
     }
-    database.database.ref("/notes").push(arrData);
-    console.log("ttt", arrData);
+   database.database.ref("/notes").push(arrData);
+    console.log("ttt"+arrData);
     if (label) {
         arr.map(async (noteData, index) => {
             var lblArrData = {
                 name: noteData,
-                user: arrData.userid
+                
             }
             var varLbl = await database.database.ref("/label").push(lblArrData);
             var key = await varLbl.child("/label").push().getKey();

@@ -3,6 +3,10 @@ package com.fundoonotes;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.oblador.vectoricons.VectorIconsPackage;
+
+import com.swmansion.gesturehandler.react.RNGestureHandlerPackage;
+
 import com.azendoo.reactnativesnackbar.SnackbarPackage;
 import com.swmansion.gesturehandler.react.RNGestureHandlerPackage;
 import com.facebook.react.ReactNativeHost;
@@ -25,6 +29,8 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new VectorIconsPackage(),
+            
             new SnackbarPackage(),
             new RNGestureHandlerPackage()
       );

@@ -8,22 +8,24 @@ import Style from './src/stylesheet.js'
 import LoginPage from './src/pages/loginpage.js';
 import Dashboard from './src/components/dashboard.js';
 import Notes from './src/components/note.js';
-
+import MyDrawerNavigator from './src/router.js'
+import AppStack from './src/router.js'
+import { Drawer } from './src/drawer.js';
 //import Login from './src/components/login.js';
 
 
 
 
-const AppContainer = createAppContainer(AppNavigator);
+
+const AppContainer = createAppContainer(AppNavigator );
+
 
 export default class App extends Component {
 
   render() {
    
     return (
-    
- <AppContainer/>
-      
+      <AppContainer/>
 
 
 

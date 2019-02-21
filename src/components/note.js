@@ -2,19 +2,29 @@ import React, { Component } from 'react';
 import {View,Image, TouchableOpacity } from 'react-native';
 
 import styles from '../stylesheet.js'
-
+import Snackbar,{LENGTH_LONG} from 'react-native-snackbar';
 import { TextInput } from 'react-native-gesture-handler';
 import Reminder from './reminder.js';
 import { Chip } from 'react-native-paper';
 import More from './more.js';
 import ExtraComponent from './extrabox.js';
+import { insertNotes } from '../services/databasecontroller.js';
 
 
 export default class Notes extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            reminder: "",
+            Title:'',
+            Description:'',
+            Pin:false,
+            Archive:false,
+            reminder: '',
+            color:'',
+            collaborator:'',
+            label:[],
+            Trash:false,
+            Image:'',
             openMore: false,
             openExtra: false
 
@@ -23,6 +33,7 @@ export default class Notes extends Component {
         this.handleReminderNote = this.handleReminderNote.bind(this);
         this.handleMore = this.handleMore.bind(this);
         this.handleExtra = this.handleExtra.bind(this);
+        this.handleColor=this.handleColor.bind(this);
     }
 
     handleReminderNote(rem) {
@@ -34,6 +45,10 @@ export default class Notes extends Component {
 
         })
         console.log(" this rem----" + this.state.reminder);
+    }
+    handleColor(clo)
+    {
+        this.setState({color:clo})
     }
     handleMore(event) {
         event.preventDefault();
@@ -53,13 +68,33 @@ export default class Notes extends Component {
 
 
     }
+    addNote(){
+        console.log("color in note" +this.state.color);
+        this.setState({
+            Title:'',
+            Description:''
+        })
+        
+        insertNotes(this.state.Title, this.state.Description, this.state.reminder, this.state.collaborator, this.state.color, this.state.Image, this.state.Archive, this.state.Pin, this.state.Trash, this.state.label);
+        Snackbar.show({
+            title:"Note added",
+            duration:Snackbar.LENGTH_LONG,
+            action:{
+                title:"success",
+                color:'green'
+            }
+            
+        });
+        this.props.navigation.navigate("dashboard");
+        
+    }
     render() {
         return (
-            <View style={styles.containerMain}>
+            <View style={{flex:1,backgroundColor:this.state.color}}>
                 <View>
                     <View style={{ flexDirection: 'row', justifyContent: 'space-between', padding: 10 }}>
                         <View>
-                            <TouchableOpacity onPress={this.onPress}>
+                            <TouchableOpacity onPress={(event)=>this.addNote(event)}>
                                 <Image source={require('../assets/back.png')}
                                     style={styles.IconArrow} />
 
@@ -89,12 +124,14 @@ export default class Notes extends Component {
                         <View style={{ padding: 10 }}>
                             <TextInput
                                 placeholder="Title"
+                                onChangeText={(Title)=>this.setState({Title:Title})}
                             ></TextInput>
                         </View>
 
                         <View style={{ paddingLeft: 10 }}>
                             <TextInput
                                 placeholder="description"
+                                onChangeText={(Description)=>this.setState({Description:Description})}
                             ></TextInput>
                         </View>
 
@@ -119,6 +156,8 @@ export default class Notes extends Component {
                 <ExtraComponent e={this.state.openExtra} />
 
                 <More m={this.state.openMore}
+                c={this.handleColor}
+
                 />
 
 

@@ -53,6 +53,13 @@ export default StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
     },
+    login:{
+        flex:1,
+        flexDirection: 'column',
+        justifyContent: 'space-between'
+
+
+    },
     reg: {
 
         flexDirection: 'column',
@@ -121,6 +128,7 @@ export default StyleSheet.create({
         borderBottomColor: 'grey',
     },
     textinput: {
+        justifyContent:'center',
         marginTop: 10,
         marginBottom: 20,
 
@@ -206,7 +214,7 @@ export default StyleSheet.create({
     MoreSroll: {
 
         marginTop: 250,
-        height: 150,
+        height: 200,
 
 
     },
@@ -228,6 +236,18 @@ export default StyleSheet.create({
         borderRadius: 15
 
     },
+
+
+        icon: {
+            width: 24,
+            height: 24,
+        },
+    Flat: {
+
+        width: 50,
+        height: 50,
+        borderRadius: 25,
+    }
 
 
 

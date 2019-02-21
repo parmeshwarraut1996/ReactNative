@@ -1,82 +1,100 @@
 import React, { Component } from 'react';
-import { Text, View, Image, TouchableOpacity, Picker, StyleSheet, ScrollView } from 'react-native';
+import { Text, View, FlatList,TouchableOpacity} from 'react-native';
 import styles from '../stylesheet.js';
+import { Avatar } from 'react-native-elements';
 
-const ColorCode=[
+const ColorCode = [
     {
-        rgbCode: "rgb(255,255,255)",
-        ColorName: "White"
+        rgbCode: "rgb(255, 255, 255)",
+        colorName: "White"
     },
     {
-        rgbCode: "rgb(255,0,0)",
-        ColorName: "Red"
+        rgbCode: "rgb(242, 139, 130)",
+        colorName: "Red"
     },
-
     {
-        rgbCode: "rgb(0,255,0)",
-        ColorName: "Lime"
+        rgbCode: "rgb(215, 174, 251)",
+        colorName: "Purple"
     },
-
     {
-        rgbCode: "rgb(0,0,255)",
-        ColorName: "Blue"
+        rgbCode: "rgb(255, 192, 203)",
+        colorName: "Pink"
     },
-
     {
-        rgbCode: "rgb(255,255,0)",
-        ColorName: "Yellow"
+        rgbCode: "rgb(167, 255, 235)",
+        colorName: "Teal"
     },
-
     {
-        rgbCode: "rgb(0,255,255)",
-        ColorName: "Cyan"
+        rgbCode: "rgb(251, 188, 4)",
+        colorName: "Orange"
     },
-
     {
-        rgbCode: "rgb(255,0,255)",
-        ColorName: "Magenta"
+        rgbCode: "rgb(174, 203, 250)",
+        colorName: "Dark Blue"
     },
-
     {
-        rgbCode: "rgb(128,0,0)",
-        ColorName: "Maroon"
+        rgbCode: "rgb(232, 234, 237)",
+        colorName: "Gray"
     },
-
     {
-        rgbCode: "rgb(128,128,0)",
-        ColorName: "Olive"
+        rgbCode: "rgb(203, 240, 248)",
+        colorName: "Blue"
     },
-
     {
-        rgbCode: "rgb(128,0,128)",
-        ColorName: "Purple"
+        rgbCode: "rgb(230, 201, 168)",
+        colorName: "Brown"
     },
-
     {
-        rgbCode: "rgb(0,128,128)",
-        ColorName: "Teal"
+        rgbCode: "rgb(255, 255, 0)",
+        colorName: "Yellow"
     },
-
     {
-        rgbCode: "rgb(238,130,238)",
-        ColorName: "Violet"
+        rgbCode: "rgb(204, 255, 144)",
+        colorName: "Green"
     }
-
-
 ]
 
-export default class ColorPalette extends Component{
-    constructor(){
+export default class ColorPalette extends Component {
+    constructor() {
         super();
-        this.state={
+        this.state = {
+            color:'',
 
         }
+        this.getColor=this.getColor.bind(this);
     }
-    render(){
-        return(
+   async  getColor(color){
+        console.log("color in colorpalett 1"+color);
+       await  this.setState({
+            color:color
+        })
+       console.log("color in colorpalett 2" +this.state.color);
+
+        this.props.colorCode(this.state.color);
+
+    }
+    render() {
+
+        return (
             <View>
+                <FlatList horizontal={true}
+                    data={ColorCode}
+                    renderItem={({ item }) =>
+                        <TouchableOpacity onPress={()=>this.getColor(item.rgbCode)}>
+                            <View
+                               style={{backgroundColor:item.rgbCode,margin:3,width:40,height:40,borderRadius:25}} 
+                                 >
+                            </View>
+                        </TouchableOpacity>
+                    }
+                >
+                </FlatList>
 
             </View>
         );
+
+        
     }
+
+
 }

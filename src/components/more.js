@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Text, View, Image, TouchableOpacity, Picker, StyleSheet, ScrollView } from 'react-native';
 import styles from '../stylesheet.js'
+import ColorPalette from './colorpalette.js';
 
 
 
@@ -13,6 +14,7 @@ export default class More extends Component {
 
     }
     render() {
+        console.log("color in more" + this.props.colorCode);
         let a = this.props.m ? styles.MoreSroll : styles.closeMore;
         return (
            
@@ -51,6 +53,7 @@ export default class More extends Component {
                             </View>
                         </View>
 
+<ColorPalette colorCode={this.props.c}/>
                    </View>
 
 
