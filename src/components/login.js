@@ -170,7 +170,7 @@ export default class Login extends Component {
 
 
     onSubmit = async event => {
-        // getUser(this.state.Username);
+        getUser(this.state.Username);
 
         if (!this.validate()) {
             var auth = await checkLogin(this.state.Username, this.state.Password);
@@ -251,7 +251,7 @@ export default class Login extends Component {
                                     <TextField
 
                                         placeholder='Enter Password'
-                                        label='Password'
+                                        label='PagetNotesssword'
                                         secureTextEntry={true}
                                         value={this.state.Password}
                                         error={this.state.errPassword}

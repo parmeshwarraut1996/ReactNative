@@ -231,7 +231,7 @@ export default StyleSheet.create({
 
     },
     ShowCard: {
-        width: 175,
+        width: 165,
         flexDirection: 'column',
         borderRadius: 15
 

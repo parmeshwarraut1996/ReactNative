@@ -1,6 +1,7 @@
 import database from '../Firebase';
 import firebase from '../Firebase'
 import Firebase from '../Firebase';
+import { AsyncStorage } from 'react-native';
 
 //insert user details in database
 export default async function getData(fname, lname, email, pass, cpass, contact) {
@@ -80,16 +81,33 @@ export function getUser(username) {
 
 
         snap.forEach(function (snap) {
-
+   
             var email = snap.child('Email_id').val();
-            var fname = snap.child('FirstName').val();
-            var lname = snap.child('LastName').val();
             var key = snap.key;
+            var d = {
+                email: email,
+                key: key
+            }
+            AsyncStorage.setItem('Data', JSON.stringify(d));
+            // AsyncStorage.setItem('userKey',key);
+            console.log("Email===="+email);
+            console.log("user key ====" +key );
+        //      var e=AsyncStorage.getItem('Data')
+        //     var email_id=JSON.parse(e);
+        //     var a=email_id.key;
+        //    // var u=AsyncStorage.getItem('userkey');
 
-            localStorage.setItem("Email", email);
-            localStorage.setItem("userKey", key);
-            localStorage.setItem("FirstName", fname);
-            localStorage.setItem("LastName", lname);
+           
+        //     // console.log("Email   dfs====" + email_id);
+        //     console.log("user key fsf====" + a);
+        //     // console.log("d   "+ d);
+            
+            
+
+            // localStorage.setItem("Email", email);
+            // localStorage.setItem("userKey", key);
+            // localStorage.setItem("FirstName", fname);
+            // localStorage.setItem("LastName", lname);
 
 
 
@@ -144,7 +162,9 @@ export function resetPass(username) {
 // add notes in database
 export async function insertNotes(title, description, isReminder, isCollaborator, isColor, isImage, isArchived, isPinned, isTrash, label) {
     var arr = [];
-
+    var e = await AsyncStorage.getItem('Data')
+    var email_id = JSON.parse(e);
+    var a = email_id.key;
 
     arr.push(label);
     var arrData = {
@@ -158,6 +178,7 @@ export async function insertNotes(title, description, isReminder, isCollaborator
         Pinned: isPinned,
         Trash: isTrash,
         label: label,
+        userid:a
         
     }
    database.database.ref("/notes").push(arrData);
@@ -181,12 +202,17 @@ export async function insertNotes(title, description, isReminder, isCollaborator
 }
 
 
-export function getNotes(callback) {
-    console.log("getNotes");
+export async function getNotes(callback) {
+    var e = await AsyncStorage.getItem('Data')
+    var email_id = JSON.parse(e);
+    var a = email_id.key;
+    console.log("getNotes"+a);
 
-    database.database.ref('/notes').orderByChild('userid').equalTo(localStorage.getItem("userKey")).on("value", function (snap) {
+    database.database.ref('/notes').orderByChild('userid').equalTo(a).on("value", function (snap) {
 
         var value = snap.val();
+        console.log("value-----"+snap.val());
+        
 
         return callback(value);
 

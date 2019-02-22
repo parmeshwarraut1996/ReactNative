@@ -6,21 +6,50 @@ import { NoteView } from './noteview.js';
 import { createStackNavigator, createAppContainer, createDrawerNavigator } from "react-navigation";
 import MyHomeScreen from './home.js';
 import MyNotificationsScreen from './notification.js';
-
-
+import {AsyncStorage} from 'react-native'
+import DisplayCards from './displayCards.js';
+import { getNotes } from '../services/databasecontroller.js';
+ 
 export default class Dashboard extends Component {
 
     constructor() {
         super();
         this.state = {
-            open: false
+            open: false,
+            notes:[]
 
         }
         console.disableYellowBox = true;
     }
+    componentDidMount() {
+        getNotes(NoteList => {
+            if (NoteList) {
+                this.setState({
+                    notes: NoteList
+                })
+                console.log(" available notelist ==== "+ NoteList);
 
-    navigateNote(event) {
+            }
+
+
+            else {
+                this.setState({
+                    notes: []
+                })
+            }
+        })
+    }
+
+
+      navigateNote(event) {
+        
+         // var u=AsyncStorage.getItem('userkey');
+
+
+         // console.log("Email   dfs====" + email_id);
+        //  console.log("user key fsf====" + a);
         this.props.navigation.navigate("note");
+        
     }
     gridView(event) {
         this.setState({
@@ -36,7 +65,18 @@ export default class Dashboard extends Component {
     
 
     render() {
-        const { navigate } = this.props.navigation;
+        var noteArray = [];
+        noteArray = Object.keys(this.state.notes).map((note) => {
+            var key = note;
+            var NoteData = this.state.notes[key];
+            return (
+                <DisplayCards note={NoteData}
+                    index={key}
+                    g={this.state.open}
+                />
+            )
+        })
+        
         return (
             <View style={styles.containerMain}>
                 <View>
@@ -75,8 +115,8 @@ export default class Dashboard extends Component {
                         </View>
                     </Card>
                 </View>
-                <ScrollView style={styles.containerMain}>
-                    <NoteView g={this.state.open}/>
+                <ScrollView style={{flex:1}}>
+                   {noteArray}
                 </ScrollView>
                 <View style={styles.b}>
                     {/* <Card containerStyle={styles.bottomView}> */}
