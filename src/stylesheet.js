@@ -225,16 +225,15 @@ export default StyleSheet.create({
 
     },
     Showlist: {
-        width: 380,
+        width:'100%',
         flexDirection: 'column',
-        borderRadius: 15
+       
 
     },
     ShowCard: {
-        width: 165,
+        width: '50%',
         flexDirection: 'column',
-        borderRadius: 15
-
+       
     },
 
 

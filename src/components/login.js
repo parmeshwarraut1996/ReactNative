@@ -251,7 +251,7 @@ export default class Login extends Component {
                                     <TextField
 
                                         placeholder='Enter Password'
-                                        label='PagetNotesssword'
+                                        label='Passsword'
                                         secureTextEntry={true}
                                         value={this.state.Password}
                                         error={this.state.errPassword}

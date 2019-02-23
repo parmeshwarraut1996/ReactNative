@@ -6,17 +6,17 @@ import { NoteView } from './noteview.js';
 import { createStackNavigator, createAppContainer, createDrawerNavigator } from "react-navigation";
 import MyHomeScreen from './home.js';
 import MyNotificationsScreen from './notification.js';
-import {AsyncStorage} from 'react-native'
+import { AsyncStorage } from 'react-native'
 import DisplayCards from './displayCards.js';
 import { getNotes } from '../services/databasecontroller.js';
- 
+
 export default class Dashboard extends Component {
 
     constructor() {
         super();
         this.state = {
             open: false,
-            notes:[]
+            notes: []
 
         }
         console.disableYellowBox = true;
@@ -27,7 +27,7 @@ export default class Dashboard extends Component {
                 this.setState({
                     notes: NoteList
                 })
-                console.log(" available notelist ==== "+ NoteList);
+                console.log(" available notelist ==== " + NoteList);
 
             }
 
@@ -41,28 +41,28 @@ export default class Dashboard extends Component {
     }
 
 
-      navigateNote(event) {
-        
-         // var u=AsyncStorage.getItem('userkey');
+    navigateNote(event) {
+
+        // var u=AsyncStorage.getItem('userkey');
 
 
-         // console.log("Email   dfs====" + email_id);
+        // console.log("Email   dfs====" + email_id);
         //  console.log("user key fsf====" + a);
         this.props.navigation.navigate("note");
-        
+
     }
     gridView(event) {
         this.setState({
-            open:!this.state.open
+            open: !this.state.open
         })
-        
-        
+
+
     }
-    openD(){
+    openD() {
         this.props.navigation.openDrawer()
     }
-    
-    
+
+
 
     render() {
         var noteArray = [];
@@ -73,23 +73,24 @@ export default class Dashboard extends Component {
                 <DisplayCards note={NoteData}
                     index={key}
                     g={this.state.open}
+                    navigation={this.props.navigation}
                 />
             )
         })
-        
+
         return (
             <View style={styles.containerMain}>
                 <View>
                     <Card containerStyle={{ borderRadius: 10 }}>
                         <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                            
-                            <TouchableOpacity 
-                            onPress={() => this.props.navigation.navigate('sidemenu')}>
-                            
-                                    <Image source={require('../assets/menu.png')}
-                                        style={styles.Icon} />
-                                </TouchableOpacity>
-                            
+
+                            <TouchableOpacity
+                                onPress={() => this.props.navigation.navigate('sidemenu')}>
+
+                                <Image source={require('../assets/menu.png')}
+                                    style={styles.Icon} />
+                            </TouchableOpacity>
+
                             <Text>Search your notes </Text>
                             {this.state.open ?
                                 (<View>
@@ -102,22 +103,26 @@ export default class Dashboard extends Component {
                                     <View>
                                         <TouchableOpacity onPress={(event) => this.gridView(event)}>
                                             <Image style={styles.Icon}
-                                            source={require('../assets/grid.png')}
-                                               />
+                                                source={require('../assets/grid.png')}
+                                            />
                                         </TouchableOpacity>
                                     </View>
                                 )}
                             <View>
-                                <Avatar 
-                                rounded title=""
+                                <Avatar
+                                    rounded title=""
                                     overlayContainerStyle={{ backgroundColor: 'orange' }} />
                             </View>
                         </View>
                     </Card>
                 </View>
-                <ScrollView style={{flex:1}}>
-                   {noteArray}
+
+                <ScrollView >
+                    <View style={{flexDirection:'row',flexWrap:'wrap',justifyContent:'space-between'}}>
+                        {noteArray}
+                    </View>
                 </ScrollView>
+
                 <View style={styles.b}>
                     {/* <Card containerStyle={styles.bottomView}> */}
                     <View style={styles.FirstAndLast}>

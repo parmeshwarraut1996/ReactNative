@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text } from 'react-native';
+import { View, Text,StyleSheet } from 'react-native';
 import styles from '../stylesheet.js'
 import { Card } from 'react-native-elements';
 import { Chip } from 'react-native-paper';
@@ -13,46 +13,51 @@ export default class DisplayCards extends Component {
 
         }
     }
+    openEditNotes(event){
+        console.log("inde---- "+this.props.index);
+        
+        this.props.navigation.navigate('editnote',{key:this.props.index,noteData:this.props.note});
+    }
 
     render() {
 
         const stl = this.props.g ? styles.ShowCard : styles.Showlist;
         return (
 
-            <View style={{ flexDirection: 'row', flexWrap: 'wrap'}}>
-                
-                    <Card containerStyle={stl}>
-                        
 
-                            <View style={{ padding: 5 }}>
-                                <Text
 
-                                >{this.props.note.Title}</Text>
-                            </View>
+            <View style={stl}>
+                <Card containerStyle={{ backgroundColor: this.props.note.Colors ,borderRadius:10}}>
+                    <View>
+                        <View style={{ padding: 5 }}>
+                            <Text
+                                onPress={(event) => this.openEditNotes(event)}
 
-                            <View style={{ paddingLeft: 5 }}>
-                                <Text
+                            >{this.props.note.Title}</Text>
+                        </View>
 
-                                > {this.props.note.Description}</Text>
-                            </View>
-                            <View>
-                                {this.props.note.Reminder ?
-                                    (<Chip mode='outlined'
-                                        style={{ width: 110 }}
+                        <View style={{ paddingLeft: 5 }}>
+                            <Text
 
-                                    >{this.props.note.Reminder}
-                                    </Chip>
-                                    ) : (
-                                        <View>
+                            > {this.props.note.Description}</Text>
+                        </View>
+                        <View>
+                            {this.props.note.Reminder ?
+                                (<Chip mode='outlined'
+                                    style={{ width:110 }}
 
-                                        </View>
-                                    )
-                                }
-                            </View>
+                                >{this.props.note.Reminder}
+                                </Chip>
+                                ) : (
+                                    <View>
 
-                        
-                    </Card>
-                
+                                    </View>
+                                )
+                            }
+                        </View>
+                    </View>
+
+                </Card>
             </View>
         );
     }

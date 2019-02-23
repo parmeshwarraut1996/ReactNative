@@ -10,6 +10,7 @@ import MyHomeScreen from "./components/home";
 import MyNotificationsScreen from "./components/notification";
 import SideMenu from "./components/SideMenu";
 import { Drawer } from "./drawer";
+import EditNote from "./components/editnote";
 
 
 
@@ -53,6 +54,12 @@ const AppNavigator = createStackNavigator({
             header: null
         },
     },
+    editnote:{
+        screen:EditNote,
+        navigationOptions:{
+            header:null
+        }
+    }
 
 
 
