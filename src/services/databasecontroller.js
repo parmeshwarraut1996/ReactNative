@@ -284,6 +284,8 @@ export function deleteNotes(note, key) {
 
 }
 export function colorNote(color, note, key) {
+    console.log("color in database ------ "+color);
+    
 
     note = {
         Colors: color
@@ -306,6 +308,7 @@ export function trashNote(note, key) {
 }
 export function editReminder(d, note, key) {
 
+console.log("reminder in database  ",d);
 
 
     note = {

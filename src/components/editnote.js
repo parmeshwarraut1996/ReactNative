@@ -1,56 +1,71 @@
 import React, { Component } from 'react';
 import { View, Image, TouchableOpacity } from 'react-native';
-
 import styles from '../stylesheet.js'
 import Snackbar, { LENGTH_LONG } from 'react-native-snackbar';
 import { TextInput } from 'react-native-gesture-handler';
-import Reminder from './reminder.js';
 import { Chip } from 'react-native-paper';
 import More from './more.js';
 import ExtraComponent from './extrabox.js';
-import { insertNotes } from '../services/databasecontroller.js';
+import { editNotesData, editReminder, colorNote } from '../services/databasecontroller.js';
+import EditReminder from './editReminder.js';
+import EditMore from './editColor.js';
 
 
 export default class EditNote extends Component {
-    
-    constructor(props) {
-        
-        super(props);
+
+    constructor() {
+
+        super();
         this.state = {
-            Title:'',
-            Description:'',
-           
+            Title: '',
+            Description: '',
+            reminder: '',
+            color: '',
+            openMore: false,
+            openExtra: false
 
         }
-        console.disableYellowBox = true;
-       
+        
+        this.handleReminderNote = this.handleReminderNote.bind(this);
+        this.handleColor = this.handleColor.bind(this);
+        this.handleMore=this.handleMore.bind(this);
+    
+
     }
 
-    componentDidMount(){
+    componentDidMount() {
         const { navigation } = this.props;
         const note = navigation.getParam('noteData');
-        this.setState({Title:note.Title})
+        this.setState({
+            Title: note.Title,
+            Description: note.Description,
+            reminder: note.Reminder,
+            color: note.Colors
+        })
 
     }
-   
 
-    handleReminderNote(rem) {
 
-        console.log("rem----" + rem);
-
+    handleReminderNote(rem, note, key) {
+           
         this.setState({
             reminder: rem
 
         })
-        console.log(" this rem----" + this.state.reminder);
+
+        editReminder(rem, note, key)
+       
     }
-    handleColor(color) {
-        this.setState({ color: color })
+   async handleColor(editColor,note,key) {
+
+        
+        
+       await this.setState({ color: editColor })
+        colorNote(editColor,note,key);
     }
     handleMore(event) {
         event.preventDefault();
-        console.log("in note-----");
-
+       
         this.setState({
             openMore: !this.state.openMore,
             openExtra: false
@@ -65,7 +80,10 @@ export default class EditNote extends Component {
 
 
     }
-    addNote() {
+    editNotes() {
+        const { navigation } = this.props;
+        const key = navigation.getParam('key');
+        const note = navigation.getParam('noteData');
         console.log("color in note" + this.state.color);
         this.setState({
             Title: '',
@@ -74,9 +92,9 @@ export default class EditNote extends Component {
         if (this.state.Title !== '' && this.state.Description !== '') {
 
 
-            insertNotes(this.state.Title, this.state.Description, this.state.reminder, this.state.collaborator, this.state.color, this.state.Image, this.state.Archive, this.state.Pin, this.state.Trash, this.state.label);
+            editNotesData(this.state.Title, this.state.Description, note, key);
             Snackbar.show({
-                title: "Note added",
+                title: "Note Edited",
                 duration: Snackbar.LENGTH_LONG,
                 action: {
                     title: "success",
@@ -102,14 +120,14 @@ export default class EditNote extends Component {
         const note = navigation.getParam('noteData');
 
         console.log("notedata ----- " + note.Title);
-        
+
 
         return (
             <View style={{ flex: 1, backgroundColor: this.state.color }}>
                 <View>
                     <View style={{ flexDirection: 'row', justifyContent: 'space-between', padding: 10 }}>
                         <View>
-                            <TouchableOpacity onPress={(event) => this.addNote(event)}>
+                            <TouchableOpacity onPress={(event) => this.editNotes(event)}>
                                 <Image source={require('../assets/back.png')}
                                     style={styles.IconArrow} />
 
@@ -124,7 +142,9 @@ export default class EditNote extends Component {
 
                                 </TouchableOpacity>
                             </View>
-                            <Reminder r={this.handleReminderNote} />
+                            <EditReminder varReminder={this.handleReminderNote}
+                                noteData={note}
+                                index={key} />
                             <View style={{ marginLeft: 10 }}>
                                 <TouchableOpacity onPress={this.onPress}>
                                     <Image source={require('../assets/archive.png')}
@@ -147,6 +167,7 @@ export default class EditNote extends Component {
                         <View style={{ paddingLeft: 10 }}>
                             <TextInput
                                 placeholder="description"
+                                value={this.state.Description}
                                 onChangeText={(Description) => this.setState({ Description: Description })}
                             ></TextInput>
                         </View>
@@ -171,8 +192,10 @@ export default class EditNote extends Component {
 
                 <ExtraComponent e={this.state.openExtra} />
 
-                <More m={this.state.openMore}
+                <EditMore m={this.state.openMore}
                     c={this.handleColor}
+                    noteData={note}
+                    index={key}
 
                 />
 
@@ -185,13 +208,13 @@ export default class EditNote extends Component {
                         <View>
                             <TouchableOpacity onPress={(event) => this.handleExtra(event)}>
                                 <Image style={styles.IconExtra}
-                                    source={require('../assets/extra.png')} />
+                                    source={require('../assets/box.png')} />
                             </TouchableOpacity>
                         </View>
                         <View>
                             <TouchableOpacity onPress={(event) => this.handleMore(event)}>
                                 <Image style={styles.IconExtra}
-                                    source={require('../assets/more.jpeg')} />
+                                    source={require('../assets/more.png')} />
 
                             </TouchableOpacity>
                         </View>

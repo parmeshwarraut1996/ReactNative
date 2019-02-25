@@ -177,13 +177,13 @@ export default class Notes extends Component {
                         <View>
                             <TouchableOpacity onPress={(event) => this.handleExtra(event)}>
                                 <Image style={styles.IconExtra}
-                                    source={require('../assets/extra.png')} />
+                                    source={require('../assets/box.png')} />
                             </TouchableOpacity>
                         </View>
                         <View>
                             <TouchableOpacity onPress={(event) => this.handleMore(event)}>
                                 <Image style={styles.IconExtra}
-                                    source={require('../assets/more.jpeg')} />
+                                    source={require('../assets/more.png')} />
 
                             </TouchableOpacity>
                         </View>
