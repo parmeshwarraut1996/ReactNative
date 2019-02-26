@@ -1,64 +1,68 @@
 import React, { Component } from 'react';
-import { Text, View, Image, TouchableOpacity, Picker, StyleSheet, ScrollView } from 'react-native';
+import { Text, View, Image, Modal, ScrollView } from 'react-native';
 import styles from '../stylesheet.js'
 import ColorPalette from './colorpalette.js';
+import Collaborator from './collaborator.js';
+import Label from './label.js';
+
 
 
 
 export default class More extends Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
+            open:false
 
         }
+        this.navigateCollaborator = this.navigateCollaborator.bind(this);
+    }
+    openCollaborator(){
+        this.setState({
+            open:true
+        })
+    }
+    navigateCollaborator(event) {
+        this.props.navigation.navigate("collaborator");
 
     }
     render() {
         console.log("color in more" + this.props.colorCode);
         let a = this.props.m ? styles.MoreSroll : styles.closeMore;
         return (
-           
-                <ScrollView>
-                    <View style={a}>
 
-                        <View style={styles.MoreComponents}>
-                            <View style={{ flexDirection: 'row' }}>
-                                <Image style={styles.IconMore}
-                                    source={require('../assets/trash.png')} />
+            <ScrollView>
+                <View style={a}>
 
-                                <Text style={styles.IconMoreComp}>Delete</Text>
-                            </View>
+                    <View style={styles.MoreComponents}>
+                        <View style={{ flexDirection: 'row' }}>
+                            <Image style={styles.IconMore}
+                                source={require('../assets/trash.png')} />
+
+                            <Text style={styles.IconMoreComp}>Delete</Text>
                         </View>
-                        <View style={styles.MoreComponents}>
-                            <View style={{ flexDirection: 'row' }}>
-                                <Image style={styles.IconMore}
-                                    source={require('../assets/share.png')} />
+                    </View>
+                    <View style={styles.MoreComponents}>
+                        <View style={{ flexDirection: 'row' }}>
+                            <Image style={styles.IconMore}
+                                source={require('../assets/share.png')} />
 
-                                <Text style={styles.IconMoreComp}>Share</Text>
-                            </View>
+                            <Text style={styles.IconMoreComp}>Share</Text>
                         </View>
-                        <View style={styles.MoreComponents}>
-                            <View style={{ flexDirection: 'row' }}>
-                                <Image style={styles.IconMore}
-                                    source={require('../assets/collaborator.png')} />
+                    </View>
 
-                                <Text style={styles.IconMoreComp}>Collaborator</Text>
-                            </View>
-                        </View>
-                        <View style={styles.MoreComponents}>
-                            <View style={{ flexDirection: 'row' }}>
-                                <Image style={styles.IconMore}
-                                    source={require('../assets/arrow.png')} />
-                                <Text style={styles.IconMoreComp}>label</Text>
-                            </View>
-                        </View>
+                    
+                        <Collaborator />
+                    
 
-<ColorPalette colorCode={this.props.c}/>
-                   </View>
+                    <Label/>
+
+                    <ColorPalette colorCode={this.props.c} />
+                </View>
 
 
-                </ScrollView>
-          
+            </ScrollView >
+
         );
     }
 }

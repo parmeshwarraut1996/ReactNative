@@ -1,4 +1,3 @@
-
 import React, { Component } from 'react';
 
 import { NavigationActions } from 'react-navigation';
@@ -21,7 +20,7 @@ export default class SideMenu extends Component {
                             Section 1
             </Text>
                         <View >
-                            <Text  onPress={this.navigateToScreen('Page1')}>
+                            <Text onPress={this.navigateToScreen('Page1')}>
                                 Page1
               </Text>
                         </View>
@@ -34,7 +33,7 @@ export default class SideMenu extends Component {
                             <Text onPress={this.navigateToScreen('Page2')}>
                                 Page2
               </Text>
-                            <Text  onPress={this.navigateToScreen('Page3')}>
+                            <Text onPress={this.navigateToScreen('Page3')}>
                                 Page3
               </Text>
                         </View>
@@ -47,5 +46,4 @@ export default class SideMenu extends Component {
         );
     }
 }
-
 

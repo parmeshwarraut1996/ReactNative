@@ -3,14 +3,14 @@ import { Text, View, Image, ScrollView, TouchableOpacity } from 'react-native';
 import { Card, Avatar } from 'react-native-elements';
 import styles from '../stylesheet.js'
 import { NoteView } from './noteview.js';
-import { DrawerActions } from "react-navigation";
+import { createStackNavigator, createAppContainer, createDrawerNavigator, DrawerActions } from "react-navigation";
 import MyHomeScreen from './home.js';
 import MyNotificationsScreen from './notification.js';
 import { AsyncStorage } from 'react-native'
 import DisplayCards from './displayCards.js';
 import { getNotes } from '../services/databasecontroller.js';
 
-export default class Dashboard extends Component {
+export default class ReminderNotes extends Component {
 
     constructor() {
         super();
@@ -27,7 +27,7 @@ export default class Dashboard extends Component {
                 this.setState({
                     notes: NoteList
                 })
-                
+
 
             }
 
@@ -40,7 +40,7 @@ export default class Dashboard extends Component {
         })
     }
     static navigationOptions = {
-        
+
         drawerLabel: 'Home',
         drawerIcon: ({ tintColor }) => (
             <Image
@@ -49,6 +49,7 @@ export default class Dashboard extends Component {
             />
         ),
     };
+
 
     navigateNote(event) {
 
@@ -67,7 +68,9 @@ export default class Dashboard extends Component {
 
 
     }
-    
+    openD() {
+        this.props.navigation.openDrawer()
+    }
 
 
 
@@ -92,7 +95,7 @@ export default class Dashboard extends Component {
                         <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
 
                             <TouchableOpacity
-                                onPress={() => {this.props.navigation.dispatch(DrawerActions.openDrawer)}}>
+                                onPress={() => { this.props.navigation.dispatch(DrawerActions.openDrawer) }}>
 
                                 <Image source={require('../assets/menu.png')}
                                     style={styles.Icon} />
@@ -125,7 +128,7 @@ export default class Dashboard extends Component {
                 </View>
 
                 <ScrollView >
-                    <View style={{flexDirection:'row',flexWrap:'wrap',justifyContent:'space-between'}}>
+                    <View style={{ flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between' }}>
                         {noteArray}
                     </View>
                 </ScrollView>
@@ -182,13 +185,3 @@ export default class Dashboard extends Component {
         );
     }
 }
-// const MyDrawerNavigator = createDrawerNavigator({
-//     Home: {
-//         screen: MyHomeScreen,
-//     },
-//     Notifications: {
-//         screen: MyNotificationsScreen,
-//     },
-// });
-
-// export const AppNavigatorDrawer = createAppContainer(MyDrawerNavigator);

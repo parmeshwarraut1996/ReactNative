@@ -8,9 +8,10 @@ import Dashboard from "./components/dashboard";
 import Notes from "./components/note";
 import MyHomeScreen from "./components/home";
 import MyNotificationsScreen from "./components/notification";
-import SideMenu from "./components/SideMenu";
-import { Drawer } from "./drawer";
+
 import EditNote from "./components/editnote";
+import Collaborator from "./components/collaborator";
+import SideMenu from "./components/SideMenu";
 
 
 
@@ -56,6 +57,12 @@ const AppNavigator = createStackNavigator({
     },
     editnote:{
         screen:EditNote,
+        navigationOptions:{
+            header:null
+        }
+    },
+    collaborator:{
+        screen:Collaborator,
         navigationOptions:{
             header:null
         }
