@@ -9,6 +9,8 @@ export default class Collaborator extends Component {
         super();
         this.state = {
             open: false,
+            collab:[],
+            collaborator:''
 
         }
         this.openCollaborator = this.openCollaborator.bind(this);
@@ -25,12 +27,26 @@ export default class Collaborator extends Component {
         this.setState({
             open: false
         })
+        this.props.collaborator(this.state.collab)
     }
-    sendNote(event) {
-        this.props.navigation.navigate("note");
+   async sendNote(event) {
+        var arr=[];
+        arr=this.state.collab;
+        arr.push(this.state.collaborator)
+       await this.setState({
+            collab:arr
+        })
     }
 
     render() {
+        var arrCollaborator = this.state.collab.map((option) => {
+            return (
+                <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                    <Image style={styles.IconExtra} source={require('../assets/arrow.png')} />
+                    <Text>{option}</Text>
+                </View>
+            );
+        })
         return (
 
 
@@ -62,6 +78,9 @@ export default class Collaborator extends Component {
                             <View>
                                 <Text onPress={(event) => this.sendNote(event)}>
                                     SAVE</Text>
+                            </View>
+                            <View>
+                                {arrCollaborator}
                             </View>
                         </View>
 

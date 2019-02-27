@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
-import { Text, View, Image, TouchableOpacity, Modal, Button } from 'react-native';
+import { Text, View, Image, TouchableOpacity, Modal, Button, TextInput, StyleSheet } from 'react-native';
 import styles from '../stylesheet.js'
+import stylesheet from '../stylesheet.js';
+
+
 
 
 
@@ -9,12 +12,15 @@ export default class Label extends Component {
         super();
         this.state = {
             open: false,
+            labelArray: [],
+            label: ''
 
         }
-        this.openCollaborator = this.openCollaborator.bind(this);
+        this.openLabel = this.openLabel.bind(this);
         this.closeLabel = this.closeLabel.bind(this);
+        console.disableYellowBox = true;
     }
-    openCollaborator = () => {
+    openLabel = () => {
         this.setState({
             open: true
         })
@@ -25,46 +31,78 @@ export default class Label extends Component {
         this.setState({
             open: false
         })
+        console.warn("label in label before props---- " + this.state.labelArray);
+
+        this.props.labelList(this.state.labelArray);
+        console.warn("label in label ---- " + this.state.labelArray);
+
+
     }
-    sendNote(event) {
-        this.props.navigation.navigate("note");
+    async saveLabel(event) {
+        var arrLabel = [];
+        arrLabel = this.state.labelArray;
+        arrLabel.push(this.state.label)
+        await this.setState({
+            labelArray: arrLabel,
+            label: ''
+
+        })
+
     }
 
     render() {
+        var lblArray = this.state.labelArray.map((option) => {
+            return (
+                <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                    <Image style={styles.IconExtra} source={require('../assets/arrow.png')} />
+                    <Text>{option}</Text>
+                </View>
+            );
+        })
         return (
 
             <View style={styles.MoreComponents}>
-                <TouchableOpacity onPress={(event) => this.openCollaborator(event)}>
-                <View style={{ flexDirection: 'row' }}>
-                    <Image style={styles.IconMore}
-                        source={require('../assets/arrow.png')} />
-                    <Text style={styles.IconMoreComp}>label</Text>
-                </View>
+                <TouchableOpacity onPress={(event) => this.openLabel(event)}>
+                    <View style={{ flexDirection: 'row' }}>
+                        <Image style={styles.IconMore}
+                            source={require('../assets/arrow.png')} />
+                        <Text style={styles.IconMoreComp}>label</Text>
+                    </View>
                 </TouchableOpacity>
-         
 
-                     
+
+
 
 
                 <View>
                     <Modal visible={this.state.open}>
-                        <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between', marginTop: 5 }}>
-                            <View>
+                        <View>
+                            <View style={{ flexDirection: 'row', justifyContent: 'space-between', padding: 5 }}>
+
                                 <TouchableOpacity onPress={(event) => this.closeLabel(event)}>
                                     <Image source={require('../assets/close.png')}
                                         style={styles.IconMore} />
                                 </TouchableOpacity>
+
+
+                                <TextInput placeholder="Enter label"
+                                    onChangeText={(label) => this.setState({ label: label })}></TextInput>
+
+
+                                <Text style={{borderWidth:StyleSheet.hairlineWidth}} onPress={(event) => this.saveLabel(event)}>
+                                SAVE
+                                </Text>
+                                <Text style={{ borderBottomWidth: StyleSheet.hairlineWidth }} ></Text>
+
+
                             </View>
                             <View>
-                                <Text style={{ height: '20%', width: '20%' }}>Collaborator</Text>
+
+                                {lblArray}
+
                             </View>
-                            <View>
-                                <Text onPress={(event) => this.sendNote(event)}>
-                                    SAVE</Text>
-                            </View>
+
                         </View>
-
-
                     </Modal>
 
                 </View>
@@ -72,7 +110,7 @@ export default class Label extends Component {
 
             </View>
 
-   
+
         );
     }
 }

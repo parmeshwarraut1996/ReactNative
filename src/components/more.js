@@ -8,23 +8,49 @@ import Label from './label.js';
 
 
 
+
 export default class More extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            open:false
+            open: false,
+            label:'',
+            collaborator: ''
+
 
         }
+        console.disableYellowBox=true;
         this.navigateCollaborator = this.navigateCollaborator.bind(this);
+        this.handleLabel=this.handleLabel.bind(this);
+        this.handleCollaborator=this.handleCollaborator.bind(this);
     }
-    openCollaborator(){
+    openCollaborator() {
         this.setState({
-            open:true
+            open: true,
+            label: '',
+            
         })
     }
     navigateCollaborator(event) {
         this.props.navigation.navigate("collaborator");
 
+    }
+   async handleLabel(label) {
+       console.warn("label in more before props --- " + this.state.label);
+
+       await this.setState({
+            label:label
+        })
+        this.props.l(this.state.label)
+        console.warn("label in more --- "+this.state.label);
+        
+    }
+    async handleCollaborator(collaborator){
+        await this.setState({
+            collaborator:collaborator
+
+        })
+        this.props.c(this.state.collaborator);
     }
     render() {
         console.log("color in more" + this.props.colorCode);
@@ -51,11 +77,11 @@ export default class More extends Component {
                         </View>
                     </View>
 
-                    
-                        <Collaborator />
-                    
 
-                    <Label/>
+                    <Collaborator collaboratorList={this.handleCollaborator} />
+
+
+                    <Label labelList={this.handleLabel} />
 
                     <ColorPalette colorCode={this.props.c} />
                 </View>

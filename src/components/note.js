@@ -34,24 +34,25 @@ export default class Notes extends Component {
         this.handleMore = this.handleMore.bind(this);
         this.handleExtra = this.handleExtra.bind(this);
         this.handleColor = this.handleColor.bind(this);
+        this.getLabel = this.getLabel.bind(this);
+        this.getCollaborator=this.getCollaborator.bind(this);
     }
 
     handleReminderNote(rem) {
 
-        console.log("rem----" + rem);
+
 
         this.setState({
             reminder: rem
 
         })
-        console.log(" this rem----" + this.state.reminder);
+
     }
     handleColor(clo) {
         this.setState({ color: clo })
     }
     handleMore(event) {
         event.preventDefault();
-        console.log("in note-----");
 
         this.setState({
             openMore: !this.state.openMore,
@@ -68,7 +69,7 @@ export default class Notes extends Component {
 
     }
     addNote() {
-        console.log("color in note" + this.state.color);
+
         this.setState({
             Title: '',
             Description: ''
@@ -91,12 +92,36 @@ export default class Notes extends Component {
         else {
             Snackbar.show({
                 title: "Empty note discarded",
-                duration:Snackbar.LENGTH_SHORT
+                duration: Snackbar.LENGTH_SHORT
             })
         }
 
     }
+    getLabel(label) {
+        this.setState({
+            label: label
+        })
+        console.warn("label in note ----- " + this.state.label);
+
+    }
+    getCollaborator(collaborator){
+        this.setState({
+            collaborator:collaborator
+        })
+
+    }
+
     render() {
+
+        var labelArray = this.state.label.map((option) => {
+            return (
+                <View>
+                    <Chip mode='outlined'
+                        style={{ margin:5, width:180}}>{option}
+                    </Chip>
+                </View>
+            )
+        })
         return (
             <View style={{ flex: 1, backgroundColor: this.state.color }}>
                 <View>
@@ -145,7 +170,7 @@ export default class Notes extends Component {
 
                     </View>
                 </View>
-                <View>
+                <View style={{justifyContent:'space-between'}}>
                     {this.state.reminder ?
                         (<Chip mode='outlined'
                             style={{ marginLeft: 10, width: 180 }}
@@ -158,6 +183,10 @@ export default class Notes extends Component {
                             </View>
                         )
                     }
+
+                    <View>
+                        {labelArray}
+                    </View>
                 </View>
 
 
@@ -165,6 +194,7 @@ export default class Notes extends Component {
 
                 <More m={this.state.openMore}
                     c={this.handleColor}
+                    l={this.getLabel}
 
                 />
 

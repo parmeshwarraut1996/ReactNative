@@ -21,6 +21,7 @@ export default class EditNote extends Component {
             Description: '',
             reminder: '',
             color: '',
+            label:[],
             openMore: false,
             openExtra: false
 
@@ -40,7 +41,8 @@ export default class EditNote extends Component {
             Title: note.Title,
             Description: note.Description,
             reminder: note.Reminder,
-            color: note.Colors
+            color: note.Colors,
+            label:note.label
         })
 
     }
@@ -177,7 +179,7 @@ export default class EditNote extends Component {
                 <View>
                     {this.state.reminder ?
                         (<Chip mode='outlined'
-                            style={{ marginLeft: 10, width: 180 }}
+                            style={{ marginLeft: 10, width: 180, backgroundColor: this.state.color }}
 
                         >{this.state.reminder}
                         </Chip>
@@ -187,7 +189,28 @@ export default class EditNote extends Component {
                             </View>
                         )
                     }
+
+                    <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
+                        {this.state.label ? (
+                            <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
+                                {this.state.label.map((option) =>
+
+                                    <Chip mode='outlined'
+                                        style={{ flexDirection: 'row', backgroundColor: this.state.color, borderColor: 'black', width: 110, margin: 5 }}
+                                    > {option}</Chip>
+                                )
+                                }
+                            </View>)
+                            : (
+                                <View>
+
+                                </View>
+                            )
+                        }
+                    </View>
                 </View>
+
+
 
 
                 <ExtraComponent e={this.state.openExtra} />
