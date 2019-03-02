@@ -200,7 +200,7 @@ export default class Login extends Component {
                     Username: '',
                     Password: ''
                 })
-                this.props.navigation.navigate('dashboard');
+                this.props.navigation.navigate("drawerScreen");
 
             }
 

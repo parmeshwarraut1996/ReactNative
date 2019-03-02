@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet,Image } from 'react-native';
 import styles from '../stylesheet.js'
 import { Card } from 'react-native-elements';
 import { Chip } from 'react-native-paper';
@@ -12,7 +12,8 @@ export default class DisplayCards extends Component {
         super();
         this.state = {
 
-            label: []
+            label: [],
+            collaborator:[]
 
         }
         console.disableYellowBox = true;
@@ -24,7 +25,8 @@ export default class DisplayCards extends Component {
     }
     async componentDidMount() {
         await this.setState({
-            label: this.props.note.label
+            label: this.props.note.label,
+            collaborator:this.props.note.Collaborator
         })
 
         console.warn("label in display card === " + this.state.label);
@@ -86,6 +88,24 @@ export default class DisplayCards extends Component {
                                             <Chip mode='outlined'
                                                 style={{ flexDirection: 'row',backgroundColor: this.props.note.Colors, borderColor: 'black', width: 110, margin: 5}}
                                             > {option}</Chip>
+                                        )
+                                        }
+                                    </View>)
+                                    : (
+                                        <View>
+
+                                        </View>
+                                    )
+                                }
+                            </View>
+                            <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
+                                {this.state.collaborator ? (
+                                    <View style={{ flexDirection: 'row',flexWrap:'wrap'}}>
+                                        {this.state.collaborator.map((option) =>
+
+                                           
+                     <Image style={styles.IconCollaborator} source={require('../assets/add-collaborator.png')}
+                     />
                                         )
                                         }
                                     </View>)

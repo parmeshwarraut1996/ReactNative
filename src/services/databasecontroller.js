@@ -89,6 +89,7 @@ export function getUser(username) {
                 key: key
             }
             AsyncStorage.setItem('Data', JSON.stringify(d));
+            AsyncStorage.setItem('Email',JSON.stringify(d))
             // AsyncStorage.setItem('userKey',key);
             console.log("Email===="+email);
             console.log("user key ====" +key );

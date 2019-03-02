@@ -6,7 +6,7 @@ import { TextInput } from 'react-native-gesture-handler';
 import { Chip } from 'react-native-paper';
 import More from './more.js';
 import ExtraComponent from './extrabox.js';
-import { editNotesData, editReminder, colorNote } from '../services/databasecontroller.js';
+import { editNotesData, editReminder, colorNote, archiveNote } from '../services/databasecontroller.js';
 import EditReminder from './editReminder.js';
 import EditMore from './editColor.js';
 
@@ -21,16 +21,17 @@ export default class EditNote extends Component {
             Description: '',
             reminder: '',
             color: '',
-            label:[],
+            label: [],
+            archive: false,
             openMore: false,
             openExtra: false
 
         }
-        
+
         this.handleReminderNote = this.handleReminderNote.bind(this);
         this.handleColor = this.handleColor.bind(this);
-        this.handleMore=this.handleMore.bind(this);
-    
+        this.handleMore = this.handleMore.bind(this);
+
 
     }
 
@@ -42,32 +43,33 @@ export default class EditNote extends Component {
             Description: note.Description,
             reminder: note.Reminder,
             color: note.Colors,
-            label:note.label
+            label: note.label,
+            archive: note.Archive
         })
 
     }
 
 
     handleReminderNote(rem, note, key) {
-           
+
         this.setState({
             reminder: rem
 
         })
 
         editReminder(rem, note, key)
-       
-    }
-   async handleColor(editColor,note,key) {
 
-        
-        
-       await this.setState({ color: editColor })
-        colorNote(editColor,note,key);
+    }
+    async handleColor(editColor, note, key) {
+
+
+
+        await this.setState({ color: editColor })
+        colorNote(editColor, note, key);
     }
     handleMore(event) {
         event.preventDefault();
-       
+
         this.setState({
             openMore: !this.state.openMore,
             openExtra: false
@@ -79,6 +81,14 @@ export default class EditNote extends Component {
             openExtra: !this.state.openExtra,
             openMore: false
         })
+
+
+    }
+    handleArchive(note,key){
+        this.setState({
+            archive:!this.state.archive
+        })
+        archiveNote(note,key);
 
 
     }
@@ -104,7 +114,7 @@ export default class EditNote extends Component {
                 }
 
             });
-            this.props.navigation.navigate("dashboard");
+            this.props.navigation.navigate("notes");
         }
         else {
             Snackbar.show({
@@ -147,13 +157,26 @@ export default class EditNote extends Component {
                             <EditReminder varReminder={this.handleReminderNote}
                                 noteData={note}
                                 index={key} />
-                            <View style={{ marginLeft: 10 }}>
-                                <TouchableOpacity onPress={this.onPress}>
-                                    <Image source={require('../assets/archive.png')}
-                                        style={styles.Icon} />
 
-                                </TouchableOpacity>
-                            </View >
+
+                            {this.state.archive ?
+                                (
+                                    <View style={{ marginLeft: 10 }}>
+                                        <TouchableOpacity onPress={() => this.handleArchive(note,key)}>
+                                            <Image source={require('../assets/unarchive.png')}
+                                                style={styles.Icon} />
+
+                                        </TouchableOpacity>
+                                    </View >
+                                )
+                                : (<View style={{ marginLeft: 10 }}>
+                                        <TouchableOpacity onPress={() => this.handleArchive(note,key)}>
+                                        <Image source={require('../assets/archive.png')}
+                                            style={styles.Icon} />
+
+                                    </TouchableOpacity>
+                                </View >
+                                )}
                         </View >
                     </View>
                     <View>
@@ -219,7 +242,7 @@ export default class EditNote extends Component {
                     c={this.handleColor}
                     noteData={note}
                     index={key}
-
+                    navigation={this.props.navigation}
                 />
 
 

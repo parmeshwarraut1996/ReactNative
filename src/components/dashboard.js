@@ -27,7 +27,7 @@ export default class Dashboard extends Component {
                 this.setState({
                     notes: NoteList
                 })
-                
+
 
             }
 
@@ -39,16 +39,7 @@ export default class Dashboard extends Component {
             }
         })
     }
-    static navigationOptions = {
-        
-        drawerLabel: 'Home',
-        drawerIcon: ({ tintColor }) => (
-            <Image
-                source={require('../assets/menu.png')}
-                style={styles.iconsssss}
-            />
-        ),
-    };
+
 
     navigateNote(event) {
 
@@ -67,7 +58,16 @@ export default class Dashboard extends Component {
 
 
     }
-    
+    static navigationOptions = {
+        drawerLabel: 'Notes',
+        drawerIcon: ({ tintColor }) => (
+            <Image
+                source={require('../assets/note.png')}
+                style={[styles.Icon, { tintColor: tintColor }]}
+            />
+        ),
+    };
+
 
 
 
@@ -76,13 +76,15 @@ export default class Dashboard extends Component {
         noteArray = Object.keys(this.state.notes).map((note) => {
             var key = note;
             var NoteData = this.state.notes[key];
-            return (
-                <DisplayCards note={NoteData}
-                    index={key}
-                    g={this.state.open}
-                    navigation={this.props.navigation}
-                />
-            )
+            if ((NoteData.Trash !== true && NoteData.Archive !== true)) {
+                return (
+                    <DisplayCards note={NoteData}
+                        index={key}
+                        g={this.state.open}
+                        navigation={this.props.navigation}
+                    />
+                )
+            }
         })
 
         return (
@@ -92,7 +94,7 @@ export default class Dashboard extends Component {
                         <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
 
                             <TouchableOpacity
-                                onPress={() => {this.props.navigation.dispatch(DrawerActions.openDrawer)}}>
+                                onPress={() => { this.props.navigation.dispatch(DrawerActions.openDrawer()) }}>
 
                                 <Image source={require('../assets/menu.png')}
                                     style={styles.Icon} />
@@ -125,7 +127,7 @@ export default class Dashboard extends Component {
                 </View>
 
                 <ScrollView >
-                    <View style={{flexDirection:'row',flexWrap:'wrap',justifyContent:'space-between'}}>
+                    <View style={{ flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between' }}>
                         {noteArray}
                     </View>
                 </ScrollView>

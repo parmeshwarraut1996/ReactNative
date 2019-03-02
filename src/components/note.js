@@ -21,7 +21,7 @@ export default class Notes extends Component {
             Archive: false,
             reminder: '',
             color: '',
-            collaborator: '',
+            collaborator: [],
             label: [],
             Trash: false,
             Image: '',
@@ -29,13 +29,13 @@ export default class Notes extends Component {
             openExtra: false
 
         }
-        console.disableYellowBox = true;
+        console.disableYellowBox = false;
         this.handleReminderNote = this.handleReminderNote.bind(this);
         this.handleMore = this.handleMore.bind(this);
         this.handleExtra = this.handleExtra.bind(this);
         this.handleColor = this.handleColor.bind(this);
         this.getLabel = this.getLabel.bind(this);
-        this.getCollaborator=this.getCollaborator.bind(this);
+        this.getCollaborator = this.getCollaborator.bind(this);
     }
 
     handleReminderNote(rem) {
@@ -87,7 +87,7 @@ export default class Notes extends Component {
                 }
 
             });
-            this.props.navigation.navigate("dashboard");
+            this.props.navigation.navigate("notes");
         }
         else {
             Snackbar.show({
@@ -104,11 +104,18 @@ export default class Notes extends Component {
         console.warn("label in note ----- " + this.state.label);
 
     }
-    getCollaborator(collaborator){
+    getCollaborator(collaborator) {
         this.setState({
-            collaborator:collaborator
+            collaborator: collaborator
         })
+        console.warn("collaborator in note --- " + this.state.collaborator);
 
+
+    }
+    handleArchive(){
+        this.setState({
+            Archive:!this.state.Archive
+        })
     }
 
     render() {
@@ -117,8 +124,19 @@ export default class Notes extends Component {
             return (
                 <View>
                     <Chip mode='outlined'
-                        style={{ margin:5, width:180}}>{option}
+                        style={{ margin: 5, width: 180 }}>{option}
                     </Chip>
+                </View>
+            )
+        })
+        var collaboratorArray = this.state.collaborator.map((option) => {
+            return (
+                <View>
+
+                    <Image style={styles.IconCollaborator} source={require('../assets/add-collaborator.png')}
+                    />
+
+
                 </View>
             )
         })
@@ -143,13 +161,25 @@ export default class Notes extends Component {
                                 </TouchableOpacity>
                             </View>
                             <Reminder r={this.handleReminderNote} />
-                            <View style={{ marginLeft: 10 }}>
-                                <TouchableOpacity onPress={this.onPress}>
-                                    <Image source={require('../assets/archive.png')}
-                                        style={styles.Icon} />
+                            {this.state.Archive ?
+                                (
+                                    <View style={{ marginLeft: 10 }}>
+                                        <TouchableOpacity onPress={(event)=>this.handleArchive(event)}>
+                                            <Image source={require('../assets/unarchive.png')}
+                                                style={styles.Icon} />
 
-                                </TouchableOpacity>
-                            </View >
+                                        </TouchableOpacity>
+                                    </View >
+                                )
+                                :(<View style={{ marginLeft: 10 }}>
+                                    <TouchableOpacity onPress={(event)=>this.handleArchive(event)}>
+                                        <Image source={require('../assets/archive.png')}
+                                            style={styles.Icon} />
+
+                                    </TouchableOpacity>
+                                </View >
+                                )}
+
                         </View >
                     </View>
                     <View>
@@ -170,7 +200,7 @@ export default class Notes extends Component {
 
                     </View>
                 </View>
-                <View style={{justifyContent:'space-between'}}>
+                <View style={{ justifyContent: 'space-between' }}>
                     {this.state.reminder ?
                         (<Chip mode='outlined'
                             style={{ marginLeft: 10, width: 180 }}
@@ -187,6 +217,11 @@ export default class Notes extends Component {
                     <View>
                         {labelArray}
                     </View>
+
+                    <View>
+                        {collaboratorArray}
+
+                    </View>
                 </View>
 
 
@@ -195,6 +230,7 @@ export default class Notes extends Component {
                 <More m={this.state.openMore}
                     c={this.handleColor}
                     l={this.getLabel}
+                    collab={this.getCollaborator}
 
                 />
 

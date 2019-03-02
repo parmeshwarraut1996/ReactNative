@@ -8,10 +8,11 @@ import Dashboard from "./components/dashboard";
 import Notes from "./components/note";
 import MyHomeScreen from "./components/home";
 import MyNotificationsScreen from "./components/notification";
-
+import drawerContainer from './components/drawer.js'
 import EditNote from "./components/editnote";
 import Collaborator from "./components/collaborator";
 import SideMenu from "./components/SideMenu";
+import DashboardPage from "./components/dashboardPage";
 
 
 
@@ -37,12 +38,12 @@ const AppNavigator = createStackNavigator({
             header: null
         },
     },
-    dashboard: {
-        screen: Dashboard,
-        navigationOptions: {
-            header: null
-        },
-    },
+    // dashboard: {
+    //     screen: Dashboard,
+    //     navigationOptions: {
+    //         header: null
+    //     },
+    // },
     note: {
         screen: Notes,
         navigationOptions: {
@@ -66,7 +67,21 @@ const AppNavigator = createStackNavigator({
         navigationOptions:{
             header:null
         }
-    }
+    },
+
+    drawerScreen:{
+        screen:drawerContainer,
+        navigationOptions:{
+            header:null
+        }
+    },
+    notes: {
+        screen:Dashboard,
+        navigationOpation: {
+            header: null
+        }
+    },
+
 
 
 

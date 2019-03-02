@@ -74,38 +74,39 @@ export default class Label extends Component {
 
 
 
-                <View>
-                    <Modal visible={this.state.open}>
+
+                <Modal visible={this.state.open}>
+
+                    <View style={{ width: '100%', padding: 3, flexDirection: 'row', justifyContent: 'space-between' }}>
                         <View>
-                            <View style={{ flexDirection: 'row', justifyContent: 'space-between', padding: 5 }}>
-
-                                <TouchableOpacity onPress={(event) => this.closeLabel(event)}>
-                                    <Image source={require('../assets/close.png')}
-                                        style={styles.IconMore} />
-                                </TouchableOpacity>
-
-
-                                <TextInput placeholder="Enter label"
-                                    onChangeText={(label) => this.setState({ label: label })}></TextInput>
-
-
-                                <Text style={{borderWidth:StyleSheet.hairlineWidth}} onPress={(event) => this.saveLabel(event)}>
+                            <TouchableOpacity onPress={(event) => this.closeLabel(event)}>
+                                <Image source={require('../assets/close.png')}
+                                    style={styles.IconMore} />
+                            </TouchableOpacity>
+                        </View>
+                        <View>
+                            <TextInput placeholder="Enter label"
+                                onChangeText={(label) => this.setState({ label: label })}></TextInput>
+                        </View>
+                        <View>
+                            <TouchableOpacity onPress={(event) => this.saveLabel(event)}>
+                            <Text>
                                 SAVE
                                 </Text>
-                                <Text style={{ borderBottomWidth: StyleSheet.hairlineWidth }} ></Text>
-
-
-                            </View>
-                            <View>
-
-                                {lblArray}
-
-                            </View>
-
+                            </TouchableOpacity>
+                           
                         </View>
-                    </Modal>
 
-                </View>
+                    </View>
+                    <View>
+
+                        {lblArray}
+
+                    </View>
+
+                </Modal>
+
+
 
 
             </View>

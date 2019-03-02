@@ -3,10 +3,8 @@ import { Text, View, Image, ScrollView, TouchableOpacity } from 'react-native';
 import { Card, Avatar } from 'react-native-elements';
 import styles from '../stylesheet.js'
 import { NoteView } from './noteview.js';
-import { createStackNavigator, createAppContainer, createDrawerNavigator, DrawerActions } from "react-navigation";
-import MyHomeScreen from './home.js';
-import MyNotificationsScreen from './notification.js';
-import { AsyncStorage } from 'react-native'
+import { DrawerActions } from "react-navigation";
+
 import DisplayCards from './displayCards.js';
 import { getNotes } from '../services/databasecontroller.js';
 
@@ -41,12 +39,13 @@ export default class ReminderNotes extends Component {
     }
     static navigationOptions = {
 
-        drawerLabel: 'Home',
+        drawerLabel: 'Reminder',
         drawerIcon: ({ tintColor }) => (
-            <Image
-                source={require('../assets/menu.png')}
-                style={styles.iconsssss}
-            />
+            
+            <Image source={require('../assets/reminderplus.png')}
+            style={styles.Icon} />
+    
+        
         ),
     };
 
@@ -79,13 +78,15 @@ export default class ReminderNotes extends Component {
         noteArray = Object.keys(this.state.notes).map((note) => {
             var key = note;
             var NoteData = this.state.notes[key];
-            return (
-                <DisplayCards note={NoteData}
-                    index={key}
-                    g={this.state.open}
-                    navigation={this.props.navigation}
-                />
-            )
+            if ((NoteData.Reminder !== '')) {
+                return (
+                    <DisplayCards note={NoteData}
+                        index={key}
+                        g={this.state.open}
+                        navigation={this.props.navigation}
+                    />
+                )
+            }
         })
 
         return (
@@ -95,13 +96,13 @@ export default class ReminderNotes extends Component {
                         <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
 
                             <TouchableOpacity
-                                onPress={() => { this.props.navigation.dispatch(DrawerActions.openDrawer) }}>
+                                onPress={() => {this.props.navigation.dispatch(DrawerActions.openDrawer())}}>
 
                                 <Image source={require('../assets/menu.png')}
                                     style={styles.Icon} />
                             </TouchableOpacity>
 
-                            <Text>Search your notes </Text>
+                            <Text>Reminder </Text>
                             {this.state.open ?
                                 (<View>
                                     <TouchableOpacity onPress={(event) => this.gridView(event)}>
@@ -118,11 +119,6 @@ export default class ReminderNotes extends Component {
                                         </TouchableOpacity>
                                     </View>
                                 )}
-                            <View>
-                                <Avatar
-                                    rounded title=""
-                                    overlayContainerStyle={{ backgroundColor: 'orange' }} />
-                            </View>
                         </View>
                     </Card>
                 </View>
@@ -133,51 +129,7 @@ export default class ReminderNotes extends Component {
                     </View>
                 </ScrollView>
 
-                <View style={styles.b}>
-                    {/* <Card containerStyle={styles.bottomView}> */}
-                    <View style={styles.FirstAndLast}>
-                        <View>
 
-                            <TouchableOpacity onPress={(event) => this.navigateNote(event)}>
-                                <Text style={styles.margin}
-                                >
-                                    Take a note...
-                                    </Text>
-                            </TouchableOpacity>
-                        </View>
-                        <View style={styles.FirstAndLast} >
-                            <View style={styles.margin}>
-                                <TouchableOpacity onPress={this.onPress}>
-                                    <Image style={styles.Icon}
-                                        source={require('../assets/checkbox.png')} />
-                                </TouchableOpacity>
-                            </View>
-                            <View style={styles.margin}>
-                                <TouchableOpacity onPress={this.onPress}>
-                                    <Image style={styles.Icon}
-                                        source={require('../assets/drawing.png')}
-                                    />
-                                </TouchableOpacity>
-                            </View>
-                            <View style={styles.margin}>
-                                <TouchableOpacity onPress={this.onPress}>
-                                    <Image style={styles.Icon}
-                                        source={require('../assets/mic.jpg')}
-                                    />
-                                </TouchableOpacity>
-                            </View>
-                            <View style={styles.margin}>
-                                <TouchableOpacity onPress={this.onPress}>
-                                    <Image style={styles.Icon}
-                                        source={require('../assets/image1.png')}
-                                    />
-                                </TouchableOpacity>
-
-                            </View>
-                        </View>
-                    </View>
-                    {/* </Card> */}
-                </View>
 
             </View>
 

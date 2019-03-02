@@ -246,7 +246,13 @@ export default StyleSheet.create({
         width: 50,
         height: 50,
         borderRadius: 25,
-    }
+    },
+    IconCollaborator:
+    {
+        height:40,
+        width: 40,
+        marginLeft: 5,
+    },
 
 
 

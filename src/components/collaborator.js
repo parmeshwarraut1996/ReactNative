@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
-import { Text, View, Image, TouchableOpacity, Modal, Button } from 'react-native';
-import styles from '../stylesheet.js'
+import { Text, View, Image, TouchableOpacity, Modal, TextInput } from 'react-native';
+import styles from '../stylesheet'
+import { AsyncStorage } from 'react-native';
+
 
 
 
@@ -9,12 +11,35 @@ export default class Collaborator extends Component {
         super();
         this.state = {
             open: false,
-            collab:[],
-            collaborator:''
+            collab: [],
+            collaborator: '',
+            email: '',
+            fName: '',
+            lName: ''
 
         }
+    console.disableYellowBox=false
         this.openCollaborator = this.openCollaborator.bind(this);
         this.closeCollaborator = this.closeCollaborator.bind(this);
+        this.shareNote=this.shareNote.bind(this);
+        
+    }
+    async componentDidMount() {
+        var e = await AsyncStorage.getItem('Data');
+        var email_id = JSON.parse(e);
+        var a = email_id.email;
+        var firstName = email_id.fname;
+        var lastName = email_id.lname;
+        console.warn("Email in collaborator ===== " + a);
+
+        this.setState({
+            email: a,
+            fName: firstName,
+            lName: lastName
+        })
+
+        console.warn("Email in collaborator ===== " + this.state.email);
+
     }
     openCollaborator = () => {
         this.setState({
@@ -27,23 +52,38 @@ export default class Collaborator extends Component {
         this.setState({
             open: false
         })
-        this.props.collaborator(this.state.collab)
+        // this.props.collaborator(this.state.collab)
     }
    async sendNote(event) {
-        var arr=[];
-        arr=this.state.collab;
+
+       await this.setState({
+            open: false
+        })
+         this.props.collaboratorList(this.state.collab)
+    }
+   async shareNote(event) {
+        var arr = [];
+        arr = this.state.collab;
         arr.push(this.state.collaborator)
        await this.setState({
-            collab:arr
+            collab: arr,
+            collaborator:'',
+           
         })
+        console.log("arrr- - -"+this.state.collab);
+        console.log("arrr label- - -"+this.state.collaborator);
+        
+        
     }
 
     render() {
         var arrCollaborator = this.state.collab.map((option) => {
             return (
-                <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                    <Image style={styles.IconExtra} source={require('../assets/arrow.png')} />
+                <View style={styles.MoreComponents}>
+                <View style={{ flexDirection: 'row'}}>
+                    <Image style={styles.IconCollaborator} source={require('../assets/profile.png')} />
                     <Text>{option}</Text>
+                </View>
                 </View>
             );
         })
@@ -63,36 +103,68 @@ export default class Collaborator extends Component {
                 </TouchableOpacity>
 
 
-                <View>
-                    <Modal visible={this.state.open}>
-                        <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between', marginTop: 5 }}>
-                            <View>
-                                <TouchableOpacity onPress={(event) => this.closeCollaborator(event)}>
-                                    <Image source={require('../assets/close.png')}
-                                        style={styles.IconMore} />
+                <Modal visible={this.state.open}>
+
+                    <View style={{ width: '100%', padding: 3, flexDirection: 'row', justifyContent: 'space-between' }}>
+                        <View>
+                            <TouchableOpacity onPress={(event) => this.closeCollaborator(event)}>
+                                <Image source={require('../assets/close.png')}
+                                    style={styles.IconMore} />
+                            </TouchableOpacity>
+                        </View>
+
+                        <View>
+                            <TouchableOpacity onPress={(event) => this.sendNote(event)}>
+                                <Text>
+                                    SAVE
+                                </Text>
+                            </TouchableOpacity>
+
+                        </View>
+
+                    </View>
+                    <View style={{ padding: 20 }}>
+                        <View style={{
+                            flexDirection: 'column',
+                            justifyContent: 'space-between'
+                        }}>
+                            <View style={styles.MoreComponents}>
+                                <View style={{ flexDirection: 'row' }}>
+
+                                    <Image style={styles.IconCollaborator} source={require('../assets/profile.png')} />
+                                    <Text> {this.state.email} </Text>
+
+
+                                </View>
+
+                            </View>
+                            
+                                <View style={{ flexDirection: 'column' }}>
+                                    {arrCollaborator}
+                                </View>
+                        
+                            <View style={styles.MoreComponents}>
+                                <View style={{ flexDirection: 'row' }}>
+                                    <Image style={styles.IconCollaborator} source={require('../assets/add-user.png')} />
+                                    <TextInput placeholder="Enter email to share with"
+                                        value={this.state.collaborator}
+                                        onChangeText={(collaborator) => this.setState({ collaborator })}></TextInput>
+                                </View>
+                            </View>
+                            <View style={{ marginTop: 30, alignContent: 'center' }}>
+                                <TouchableOpacity onPress={(event) => this.shareNote(event)}>
+                                    <Image source={require('../assets/send.png')}
+                                        style={{ width: '50%', height: 30 }} />
                                 </TouchableOpacity>
-                            </View>
-                            <View>
-                                <Text style={{ height: '20%', width: '20%' }}>Collaborator</Text>
-                            </View>
-                            <View>
-                                <Text onPress={(event) => this.sendNote(event)}>
-                                    SAVE</Text>
-                            </View>
-                            <View>
-                                {arrCollaborator}
                             </View>
                         </View>
 
-
-                    </Modal>
-
-                </View>
+                    </View>
+                </Modal>
 
 
-            </View>
 
-
+            </View >
         );
     }
 }

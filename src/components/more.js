@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View, Image, Modal, ScrollView } from 'react-native';
+import { Text, View, Image, Modal, ScrollView, TouchableOpacity } from 'react-native';
 import styles from '../stylesheet.js'
 import ColorPalette from './colorpalette.js';
 import Collaborator from './collaborator.js';
@@ -14,44 +14,38 @@ export default class More extends Component {
         super(props);
         this.state = {
             open: false,
-            label:'',
-            collaborator: ''
+            label: '',
+            collaborator: '',
+            trash:false
+
 
 
         }
-        console.disableYellowBox=true;
-        this.navigateCollaborator = this.navigateCollaborator.bind(this);
-        this.handleLabel=this.handleLabel.bind(this);
-        this.handleCollaborator=this.handleCollaborator.bind(this);
-    }
-    openCollaborator() {
-        this.setState({
-            open: true,
-            label: '',
-            
-        })
-    }
-    navigateCollaborator(event) {
-        this.props.navigation.navigate("collaborator");
+        console.disableYellowBox = false;
 
+        this.handleLabel = this.handleLabel.bind(this);
+        this.handleCollaborator = this.handleCollaborator.bind(this);
     }
-   async handleLabel(label) {
-       console.warn("label in more before props --- " + this.state.label);
 
-       await this.setState({
-            label:label
+
+    async handleLabel(label) {
+        console.warn("label in more before props --- " + this.state.label);
+
+        await this.setState({
+            label: label
         })
         this.props.l(this.state.label)
-        console.warn("label in more --- "+this.state.label);
-        
+        console.warn("label in more --- " + this.state.label);
+
     }
-    async handleCollaborator(collaborator){
+    async handleCollaborator(collaborator) {
         await this.setState({
-            collaborator:collaborator
+            collaborator: collaborator
 
         })
-        this.props.c(this.state.collaborator);
+        this.props.collab(this.state.collaborator);
     }
+    
     render() {
         console.log("color in more" + this.props.colorCode);
         let a = this.props.m ? styles.MoreSroll : styles.closeMore;
@@ -62,10 +56,12 @@ export default class More extends Component {
 
                     <View style={styles.MoreComponents}>
                         <View style={{ flexDirection: 'row' }}>
-                            <Image style={styles.IconMore}
-                                source={require('../assets/trash.png')} />
+                            
+                                <Image style={styles.IconMore}
+                                    source={require('../assets/trash.png')} />
 
-                            <Text style={styles.IconMoreComp}>Delete</Text>
+                                <Text style={styles.IconMoreComp}>Delete</Text>
+                            
                         </View>
                     </View>
                     <View style={styles.MoreComponents}>
