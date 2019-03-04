@@ -98,6 +98,13 @@ export default StyleSheet.create({
         width: 25,
         marginLeft: 5,
     },
+    iconBack:
+    {
+        marginTop:10,
+        height: 30,
+        width: 30,
+        marginLeft: 5,
+    },
     Icon:
     {
         height: 35,

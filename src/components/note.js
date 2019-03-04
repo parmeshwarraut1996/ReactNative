@@ -76,6 +76,9 @@ export default class Notes extends Component {
         })
         if (this.state.Title !== '' && this.state.Description !== '') {
 
+            console.log("label in note ----- " + this.state.label);
+            console.log("collaborator in note --- " + this.state.collaborator);
+            console.log("collaborator in note --- " + this.state.color);
 
             insertNotes(this.state.Title, this.state.Description, this.state.reminder, this.state.collaborator, this.state.color, this.state.Image, this.state.Archive, this.state.Pin, this.state.Trash, this.state.label);
             Snackbar.show({
@@ -101,22 +104,31 @@ export default class Notes extends Component {
         this.setState({
             label: label
         })
-        console.warn("label in note ----- " + this.state.label);
+        console.log("label in note ----- " + this.state.label);
 
     }
     getCollaborator(collaborator) {
         this.setState({
             collaborator: collaborator
         })
-        console.warn("collaborator in note --- " + this.state.collaborator);
+        console.log("collaborator in note --- " + this.state.collaborator);
 
 
     }
-    handleArchive(){
+    handleArchive(event) {
+        event.preventDefault();
         this.setState({
-            Archive:!this.state.Archive
+            Archive: !this.state.Archive
         })
     }
+    handlePin(event){
+        event.preventDefault();
+        this.setState({
+            Pin:!this.state.Pin
+        })
+
+    }
+
 
     render() {
 
@@ -152,27 +164,38 @@ export default class Notes extends Component {
                             </TouchableOpacity>
                         </View>
 
-                        <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                            <View style={{ marginLeft: 10 }}>
-                                <TouchableOpacity onPress={this.onPress}>
-                                    <Image source={require('../assets/pin.png')}
-                                        style={styles.Icon} />
 
-                                </TouchableOpacity>
-                            </View>
+                        <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                            {this.state.Pin ? (
+                                <View style={{ marginLeft: 10 }}>
+                                    <TouchableOpacity onPress={(event)=>this.handlePin(event)}>
+                                        <Image source={require('../assets/fillpin.png')}
+                                            style={styles.Icon} />
+
+                                    </TouchableOpacity>
+                                </View>
+                            ) : (
+                                    <View style={{ marginLeft: 10 }}>
+                                    <TouchableOpacity onPress={(event)=>this.handlePin(event)}>
+                                            <Image source={require('../assets/pin.png')}
+                                                style={styles.Icon} />
+
+                                        </TouchableOpacity>
+                                    </View>
+                                )}
                             <Reminder r={this.handleReminderNote} />
                             {this.state.Archive ?
                                 (
                                     <View style={{ marginLeft: 10 }}>
-                                        <TouchableOpacity onPress={(event)=>this.handleArchive(event)}>
+                                        <TouchableOpacity onPress={(event) => this.handleArchive(event)}>
                                             <Image source={require('../assets/unarchive.png')}
                                                 style={styles.Icon} />
 
                                         </TouchableOpacity>
                                     </View >
                                 )
-                                :(<View style={{ marginLeft: 10 }}>
-                                    <TouchableOpacity onPress={(event)=>this.handleArchive(event)}>
+                                : (<View style={{ marginLeft: 10 }}>
+                                    <TouchableOpacity onPress={(event) => this.handleArchive(event)}>
                                         <Image source={require('../assets/archive.png')}
                                             style={styles.Icon} />
 

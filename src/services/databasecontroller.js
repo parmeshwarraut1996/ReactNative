@@ -166,6 +166,8 @@ export async function insertNotes(title, description, isReminder, isCollaborator
     var e = await AsyncStorage.getItem('Data')
     var email_id = JSON.parse(e);
     var a = email_id.key;
+    console.warn("collb in database in more --- " + isCollaborator);
+    console.warn("label in database --- " +label);
 
     arr.push(label);
     var arrData = {
@@ -182,12 +184,16 @@ export async function insertNotes(title, description, isReminder, isCollaborator
         userid:a
         
     }
-   database.database.ref("/notes").push(arrData);
+    console.warn("collb in database in more --- " + arrData.Collaborator);
+    console.warn("label in database --- " +arrData.label);
+
+  // database.database.ref("/notes").push(arrData);
     console.log("ttt"+arrData);
     if (label) {
         arr.map(async (noteData, index) => {
             var lblArrData = {
                 name: noteData,
+                userId:arrData.userid
                 
             }
             var varLbl = await database.database.ref("/label").push(lblArrData);
@@ -199,7 +205,7 @@ export async function insertNotes(title, description, isReminder, isCollaborator
     }
 
 
-    //await database.database.ref("/notes").push(arr);
+await database.database.ref("/notes").push(arrData);
 }
 
 

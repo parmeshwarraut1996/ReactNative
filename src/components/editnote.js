@@ -6,7 +6,7 @@ import { TextInput } from 'react-native-gesture-handler';
 import { Chip } from 'react-native-paper';
 import More from './more.js';
 import ExtraComponent from './extrabox.js';
-import { editNotesData, editReminder, colorNote, archiveNote } from '../services/databasecontroller.js';
+import { editNotesData, editReminder, colorNote, archiveNote, pinnedNote } from '../services/databasecontroller.js';
 import EditReminder from './editReminder.js';
 import EditMore from './editColor.js';
 
@@ -23,6 +23,7 @@ export default class EditNote extends Component {
             color: '',
             label: [],
             archive: false,
+            pin:false,
             openMore: false,
             openExtra: false
 
@@ -44,7 +45,8 @@ export default class EditNote extends Component {
             reminder: note.Reminder,
             color: note.Colors,
             label: note.label,
-            archive: note.Archive
+            archive: note.Archive,
+            pin:note.Pinned
         })
 
     }
@@ -92,6 +94,13 @@ export default class EditNote extends Component {
 
 
     }
+    handlePin(note,key){
+        this.setState({
+            pin:!this.state.pin
+        })
+        pinnedNote(note,key);
+    }
+    
     editNotes() {
         const { navigation } = this.props;
         const key = navigation.getParam('key');
@@ -147,13 +156,24 @@ export default class EditNote extends Component {
                         </View>
 
                         <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                            <View style={{ marginLeft: 10 }}>
-                                <TouchableOpacity onPress={this.onPress}>
-                                    <Image source={require('../assets/pin.png')}
-                                        style={styles.Icon} />
 
-                                </TouchableOpacity>
-                            </View>
+                            {this.state.pin ? (
+                                <View style={{ marginLeft: 10 }}>
+                                    <TouchableOpacity onPress={()=>this.handlePin(note,key)}>
+                                        <Image source={require('../assets/fillpin.png')}
+                                            style={styles.Icon} />
+
+                                    </TouchableOpacity>
+                                </View>
+                            ) : (
+                                    <View style={{ marginLeft: 10 }}>
+                                    <TouchableOpacity onPress={()=>this.handlePin(note,key)}>
+                                            <Image source={require('../assets/pin.png')}
+                                                style={styles.Icon} />
+
+                                        </TouchableOpacity>
+                                    </View>
+                                )}
                             <EditReminder varReminder={this.handleReminderNote}
                                 noteData={note}
                                 index={key} />

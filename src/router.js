@@ -13,6 +13,7 @@ import EditNote from "./components/editnote";
 import Collaborator from "./components/collaborator";
 import SideMenu from "./components/SideMenu";
 import DashboardPage from "./components/dashboardPage";
+import SearchNotes from "./components/searchNotes";
 
 
 
@@ -68,6 +69,12 @@ const AppNavigator = createStackNavigator({
             header:null
         }
     },
+    search:{
+        screen:SearchNotes,
+        navigationOptions: {
+            header: null
+        },
+    },
 
     drawerScreen:{
         screen:drawerContainer,
@@ -77,10 +84,11 @@ const AppNavigator = createStackNavigator({
     },
     notes: {
         screen:Dashboard,
-        navigationOpation: {
+        navigationOpations: {
             header: null
         }
     },
+    
 
 
 

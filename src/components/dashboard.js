@@ -73,16 +73,35 @@ export default class Dashboard extends Component {
 
     render() {
         var noteArray = [];
+        var pinArray = [];
         noteArray = Object.keys(this.state.notes).map((note) => {
             var key = note;
             var NoteData = this.state.notes[key];
-            if ((NoteData.Trash !== true && NoteData.Archive !== true)) {
+            if ((NoteData.Trash !== true && NoteData.Archive !== true && NoteData.Pinned !== true)) {
                 return (
+
                     <DisplayCards note={NoteData}
                         index={key}
                         g={this.state.open}
                         navigation={this.props.navigation}
                     />
+
+                )
+            }
+        })
+
+        pinArray = Object.keys(this.state.notes).map((note) => {
+            var key = note;
+            var NoteData = this.state.notes[key];
+            if ((NoteData.Pinned === true)) {
+                return (
+
+                    <DisplayCards note={NoteData}
+                        index={key}
+                        g={this.state.open}
+                        navigation={this.props.navigation}
+                    />
+
                 )
             }
         })
@@ -99,8 +118,8 @@ export default class Dashboard extends Component {
                                 <Image source={require('../assets/menu.png')}
                                     style={styles.Icon} />
                             </TouchableOpacity>
-
-                            <Text>Search your notes </Text>
+                            <TouchableOpacity onPress={()=>this.props.navigation.navigate("search")}>
+                                <Text>Search your notes </Text></TouchableOpacity>
                             {this.state.open ?
                                 (<View>
                                     <TouchableOpacity onPress={(event) => this.gridView(event)}>
@@ -127,9 +146,19 @@ export default class Dashboard extends Component {
                 </View>
 
                 <ScrollView >
-                    <View style={{ flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between' }}>
-                        {noteArray}
-                    </View>
+
+                    {pinArray !== null ?
+                        (<View style={{ flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between' }}>
+
+                            {noteArray}
+                        </View>
+                        ) : (
+                            <View style={{ flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between' }}>
+                                <Text>Pinned</Text>
+                                {pinArray}
+                            </View>)}
+
+
                 </ScrollView>
 
                 <View style={styles.b}>

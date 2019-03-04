@@ -39,11 +39,15 @@ export default class More extends Component {
 
     }
     async handleCollaborator(collaborator) {
+        console.warn("coll in more --- " + this.state.collaborator);
+
         await this.setState({
             collaborator: collaborator
 
         })
         this.props.collab(this.state.collaborator);
+        console.warn("collborator in more --- " + this.state.collaborator);
+
     }
     
     render() {

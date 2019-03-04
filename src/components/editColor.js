@@ -115,11 +115,13 @@ export default class EditMore extends Component {
                                     </View>
                                 </View>
                                 <View style={styles.MoreComponents}>
+                                <TouchableOpacity onPress={()=>this.addLabel(this.props.noteData,this.props.index)}>
                                     <View style={{ flexDirection: 'row' }}>
                                         <Image style={styles.IconMore}
                                             source={require('../assets/arrow.png')} />
                                         <Text style={styles.IconMoreComp}>label</Text>
                                     </View>
+                                    </TouchableOpacity>
                                 </View>
 
                                 <EditColorPalette editColorCode={this.editHandleColor}
