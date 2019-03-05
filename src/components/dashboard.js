@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View, Image, ScrollView, TouchableOpacity } from 'react-native';
+import { Text, View, Image, ScrollView, TouchableOpacity, ActivityIndicator } from 'react-native';
 import { Card, Avatar } from 'react-native-elements';
 import styles from '../stylesheet.js'
 import { NoteView } from './noteview.js';
@@ -16,7 +16,8 @@ export default class Dashboard extends Component {
         super();
         this.state = {
             open: false,
-            notes: []
+            notes: [],
+            showProgessbar: true
 
         }
         console.disableYellowBox = true;
@@ -39,16 +40,19 @@ export default class Dashboard extends Component {
             }
         })
     }
+    componentWillMount() {
+        setTimeout(() => {
+            this.setState({
+                 showProgessbar: false
+            })
+
+        }, 3000)
+    }
 
 
     navigateNote(event) {
 
-        // var u=AsyncStorage.getItem('userkey');
-
-
-        // console.log("Email   dfs====" + email_id);
-        //  console.log("user key fsf====" + a);
-        this.props.navigation.navigate("note");
+                this.props.navigation.navigate("note");
 
     }
     gridView(event) {
@@ -107,108 +111,115 @@ export default class Dashboard extends Component {
         })
 
         return (
-            <View style={styles.containerMain}>
-                <View>
-                    <Card containerStyle={{ borderRadius: 10 }}>
-                        <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+            <View style={styles.progressBar}>
+                {this.state.showProgessbar ?
+                    <ActivityIndicator size="large" color="green" />
 
-                            <TouchableOpacity
-                                onPress={() => { this.props.navigation.dispatch(DrawerActions.openDrawer()) }}>
 
-                                <Image source={require('../assets/menu.png')}
-                                    style={styles.Icon} />
-                            </TouchableOpacity>
-                            <TouchableOpacity onPress={()=>this.props.navigation.navigate("search")}>
-                                <Text>Search your notes </Text></TouchableOpacity>
-                            {this.state.open ?
-                                (<View>
-                                    <TouchableOpacity onPress={(event) => this.gridView(event)}>
-                                        <Image source={require('../assets/list.png')}
+                    : <View style={styles.containerMain}>
+
+                        <View>
+                            <Card containerStyle={{ borderRadius: 10 }}>
+                                <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+
+                                    <TouchableOpacity
+                                        onPress={() => { this.props.navigation.dispatch(DrawerActions.openDrawer())}}>
+
+                                        <Image source={require('../assets/menu.png')}
                                             style={styles.Icon} />
                                     </TouchableOpacity>
+                                    <TouchableOpacity onPress={() => this.props.navigation.navigate("search")}>
+                                        <Text>Search your notes </Text></TouchableOpacity>
+                                    {this.state.open ?
+                                        (<View>
+                                            <TouchableOpacity onPress={(event) => this.gridView(event)}>
+                                                <Image source={require('../assets/list.png')}
+                                                    style={styles.Icon} />
+                                            </TouchableOpacity>
+                                        </View>
+                                        ) : (
+                                            <View>
+                                                <TouchableOpacity onPress={(event) => this.gridView(event)}>
+                                                    <Image style={styles.Icon}
+                                                        source={require('../assets/grid.png')}
+                                                    />
+                                                </TouchableOpacity>
+                                            </View>
+                                        )}
+                                    <View>
+                                        <Avatar
+                                            rounded title=""
+                                            overlayContainerStyle={{ backgroundColor: 'orange' }} />
+                                    </View>
+                                </View>
+                            </Card>
+                        </View>
+
+                        <ScrollView >
+
+                            {pinArray !== null ?
+                                (<View style={{ flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between' }}>
+
+                                    {noteArray}
                                 </View>
                                 ) : (
-                                    <View>
-                                        <TouchableOpacity onPress={(event) => this.gridView(event)}>
+                                    <View style={{ flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between' }}>
+                                        <Text>Pinned</Text>
+                                        {pinArray}
+                                    </View>)}
+
+
+                        </ScrollView>
+
+                        <View style={styles.b}>
+                            {/* <Card containerStyle={styles.bottomView}> */}
+                            <View style={styles.FirstAndLast}>
+                                <View>
+
+                                    <TouchableOpacity onPress={(event) => this.navigateNote(event)}>
+                                        <Text style={styles.margin}
+                                        >
+                                            Take a note...
+                                    </Text>
+                                    </TouchableOpacity>
+                                </View>
+                                <View style={styles.FirstAndLast} >
+                                    <View style={styles.margin}>
+                                        <TouchableOpacity onPress={this.onPress}>
                                             <Image style={styles.Icon}
-                                                source={require('../assets/grid.png')}
+                                                source={require('../assets/checkbox.png')} />
+                                        </TouchableOpacity>
+                                    </View>
+                                    <View style={styles.margin}>
+                                        <TouchableOpacity onPress={this.onPress}>
+                                            <Image style={styles.Icon}
+                                                source={require('../assets/drawing.png')}
                                             />
                                         </TouchableOpacity>
                                     </View>
-                                )}
-                            <View>
-                                <Avatar
-                                    rounded title=""
-                                    overlayContainerStyle={{ backgroundColor: 'orange' }} />
+                                    <View style={styles.margin}>
+                                        <TouchableOpacity onPress={this.onPress}>
+                                            <Image style={styles.Icon}
+                                                source={require('../assets/mic.jpg')}
+                                            />
+                                        </TouchableOpacity>
+                                    </View>
+                                    <View style={styles.margin}>
+                                        <TouchableOpacity onPress={this.onPress}>
+                                            <Image style={styles.Icon}
+                                                source={require('../assets/image1.png')}
+                                            />
+                                        </TouchableOpacity>
+
+                                    </View>
+                                </View>
                             </View>
+                            {/* </Card> */}
                         </View>
-                    </Card>
-                </View>
 
-                <ScrollView >
-
-                    {pinArray !== null ?
-                        (<View style={{ flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between' }}>
-
-                            {noteArray}
-                        </View>
-                        ) : (
-                            <View style={{ flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between' }}>
-                                <Text>Pinned</Text>
-                                {pinArray}
-                            </View>)}
-
-
-                </ScrollView>
-
-                <View style={styles.b}>
-                    {/* <Card containerStyle={styles.bottomView}> */}
-                    <View style={styles.FirstAndLast}>
-                        <View>
-
-                            <TouchableOpacity onPress={(event) => this.navigateNote(event)}>
-                                <Text style={styles.margin}
-                                >
-                                    Take a note...
-                                    </Text>
-                            </TouchableOpacity>
-                        </View>
-                        <View style={styles.FirstAndLast} >
-                            <View style={styles.margin}>
-                                <TouchableOpacity onPress={this.onPress}>
-                                    <Image style={styles.Icon}
-                                        source={require('../assets/checkbox.png')} />
-                                </TouchableOpacity>
-                            </View>
-                            <View style={styles.margin}>
-                                <TouchableOpacity onPress={this.onPress}>
-                                    <Image style={styles.Icon}
-                                        source={require('../assets/drawing.png')}
-                                    />
-                                </TouchableOpacity>
-                            </View>
-                            <View style={styles.margin}>
-                                <TouchableOpacity onPress={this.onPress}>
-                                    <Image style={styles.Icon}
-                                        source={require('../assets/mic.jpg')}
-                                    />
-                                </TouchableOpacity>
-                            </View>
-                            <View style={styles.margin}>
-                                <TouchableOpacity onPress={this.onPress}>
-                                    <Image style={styles.Icon}
-                                        source={require('../assets/image1.png')}
-                                    />
-                                </TouchableOpacity>
-
-                            </View>
-                        </View>
                     </View>
-                    {/* </Card> */}
-                </View>
-
+                }
             </View>
-
 
         );
     }

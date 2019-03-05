@@ -44,8 +44,8 @@ export default class TrashNotes extends Component {
         drawerLabel: 'Bin',
         drawerIcon: ({ tintColor }) => (
             <Image source={require('../assets/trash.png')}
-            style={styles.Icon} />
-
+            style={[styles.Icon, { tintColor: tintColor }]}
+            />
         ),
     };
 

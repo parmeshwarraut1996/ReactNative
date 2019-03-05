@@ -16,6 +16,12 @@ export default StyleSheet.create({
         borderBottomWidth: StyleSheet.hairlineWidth,
 
     },
+    progressBar:{
+        flex:1,
+        justifyContent:'center',
+        
+
+    },
 
     textBorder: {
         borderWidth: StyleSheet.hairlineWidth,

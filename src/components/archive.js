@@ -44,8 +44,8 @@ export default class ArchiveNotes extends Component {
         drawerLabel: 'Archive',
         drawerIcon: ({ tintColor }) => (
             <Image source={require('../assets/archive.png')}
-            style={styles.Icon} />
-
+            style={[styles.Icon, { tintColor: tintColor }]}
+            />
         ),
     };
 

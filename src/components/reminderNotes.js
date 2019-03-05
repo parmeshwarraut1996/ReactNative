@@ -43,8 +43,8 @@ export default class ReminderNotes extends Component {
         drawerIcon: ({ tintColor }) => (
             
             <Image source={require('../assets/reminderplus.png')}
-            style={styles.Icon} />
-    
+            style={[styles.Icon, { tintColor: tintColor }]}
+            />    
         
         ),
     };
