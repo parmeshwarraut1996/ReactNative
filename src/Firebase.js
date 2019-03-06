@@ -5,10 +5,12 @@ var config = {
     authDomain: "fundoonotesreactnative.firebaseapp.com",
     databaseURL: "https://fundoonotesreactnative.firebaseio.com",
     projectId: "fundoonotesreactnative",
-    storageBucket: "fundoonotesreactnative.appspot.com",
+    storageBucket: "gs://fundoonotesreactnative.appspot.com",
     messagingSenderId: "226834616466"
 };
 firebase.initializeApp(config);
 const database=firebase.database();
+var storage=firebase.storage();
+var storageRef=storage.ref();
 
-export default{firebase,database};
+export default{firebase,database,storageRef};

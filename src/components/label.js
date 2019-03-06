@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import { Text, View, Image, TouchableOpacity, Modal, Button, TextInput, StyleSheet } from 'react-native';
+import { Text, View, Image, TouchableOpacity, Modal, TextInput} from 'react-native';
 import styles from '../stylesheet.js'
-import stylesheet from '../stylesheet.js';
+
 
 
 

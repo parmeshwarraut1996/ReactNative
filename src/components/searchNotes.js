@@ -18,15 +18,17 @@ export default class SearchNotes extends Component {
         this.state = {
             input: '',
             notes: [],
-            text: ''
+            filterArray: [],
+            text: '',
+            isSearching: false
 
         }
         console.disableYellowBox = true;
 
 
     }
-    async componentDidMount() {
-        await getNotes(NoteList => {
+    componentDidMount() {
+        getNotes(NoteList => {
             console.log("notelist---- " + NoteList);
 
             if (NoteList) {
@@ -49,33 +51,30 @@ export default class SearchNotes extends Component {
 
 
 
-
     filterSearch(text) {
-        var noteArray = [];
-        var NoteData = [],
-            noteArray = Object.keys(this.state.notes).map((note) => {
-                var key = note;
-                NoteData.push(this.state.notes[key]);
-                console.log("filter notedata -- - " + NoteData.Title);
+var NoteData=[];
+        if (text.toString().length >= 1) {
+            this.setState({ isSearching: true });
+           var noteData=Object.keys(this.state.notes).map((note)=>{
+          
+            var key = note;
+             NoteData.push(this.state.notes[key]);
+            const newData = NoteData.filter(function (item) {
+                return item.Title.toLowerCase().contains(text.toLowerCase()) || item.Title.toLowerCase().contains(text.toLowerCase());
+            });
+            this.setState({
+                filterArray: newData,
+            });
+            
+        }) } else {
+            this.setState({ isSearching: false });
+        }
 
-
-                const newData = NoteData.filter(function (item) {
-                    const itemData = item.Title.toUpperCase()
-                    const textData = text.toUpperCase()
-                    return itemData.contains(textData)
-                });
-                this.setState({
-                    
-                    notes: newData ,
-                    text: text,// after filter we are setting users to new array
-                });
-            })
     }
 
     render() {
-        var noteArray = [];
-        var pinArray = [];
-
+       
+        var finalArray = !this.state.isSearching ? this.state.notes : this.state.filterArray;
 
         return (
             <View style={styles.containerMain}>
@@ -89,9 +88,9 @@ export default class SearchNotes extends Component {
                     </TouchableOpacity>
                     <View style={{ marginLeft: 20 }}>
                         <TextInput placeholder="search your notes"
-                         value={this.state.text}
-                            onChangeText={(text) => this.filterSearch(text)}
-                    
+                           // value={this.state.text}
+                            onChangeText={(text) => { this.filterSearch(text) }}
+
                         >
                         </TextInput>
                     </View>
@@ -101,9 +100,9 @@ export default class SearchNotes extends Component {
 
 
                 <View>
-                    { Object.keys(this.state.notes).map((note) => {
+                    {Object.keys(finalArray).map((note) => {
                         var key = note;
-                        var NoteData = this.state.notes[key];
+                        var NoteData = finalArray[key];
                         if ((NoteData.Trash !== true && NoteData.Archive !== true && NoteData.Pinned !== true)) {
                             return (
 

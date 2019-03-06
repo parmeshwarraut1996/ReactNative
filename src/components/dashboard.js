@@ -9,6 +9,7 @@ import MyNotificationsScreen from './notification.js';
 import { AsyncStorage } from 'react-native'
 import DisplayCards from './displayCards.js';
 import { getNotes } from '../services/databasecontroller.js';
+import Profile from './profile.js';
 
 export default class Dashboard extends Component {
 
@@ -46,7 +47,7 @@ export default class Dashboard extends Component {
                  showProgessbar: false
             })
 
-        }, 3000)
+        }, 2000)
     }
 
 
@@ -140,17 +141,15 @@ export default class Dashboard extends Component {
                                         ) : (
                                             <View>
                                                 <TouchableOpacity onPress={(event) => this.gridView(event)}>
-                                                    <Image style={styles.Icon}
+                                                    <Image style={styles.IconArrow}
                                                         source={require('../assets/grid.png')}
                                                     />
                                                 </TouchableOpacity>
                                             </View>
                                         )}
-                                    <View>
-                                        <Avatar
-                                            rounded title=""
-                                            overlayContainerStyle={{ backgroundColor: 'orange' }} />
-                                    </View>
+
+                                        <Profile/>
+                                   
                                 </View>
                             </Card>
                         </View>

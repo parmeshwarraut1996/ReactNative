@@ -15,37 +15,37 @@ export default async function getData(fname, lname, email, pass, cpass, contact)
 
     }
 
-    console.warn("first name--- "+fname);
-    
-
-     let check = await Firebase.firebase.auth().createUserWithEmailAndPassword(email, pass).then(() => {
-
-       database.database.ref('/users').push(data);
-
-        var user =Firebase.firebase.auth().currentUser;
-        user.sendEmailVerification().then(()=>{
+    console.warn("first name--- " + fname);
 
 
+    let check = await Firebase.firebase.auth().createUserWithEmailAndPassword(email, pass).then(() => {
 
-       
+        database.database.ref('/users').push(data);
+
+        var user = Firebase.firebase.auth().currentUser;
+        user.sendEmailVerification().then(() => {
+
+
+
+
 
         })
     })
         .catch(function (error) {
             if (error) {
-                console.log("error---- "+error);
+                console.log("error---- " + error);
                 return error;
             }
 
         })
     if (check) {
-        console.log("check==== "+check.message);
+        console.log("check==== " + check.message);
         console.log("return ---- " + check.message);
 
         return check;
-        
+
     }
-   
+
 
 
 }
@@ -59,8 +59,8 @@ export async function checkLogin(username, password) {
     }
     console.log("username and apssword", arr);
 
-    let data = await Firebase.firebase.auth().signInWithEmailAndPassword(username,password).then(()=>{ 
-    //Firebase.firebase.auth().signInWithEmailAndPassword(username, password).then(() => {
+    let data = await Firebase.firebase.auth().signInWithEmailAndPassword(username, password).then(() => {
+        //Firebase.firebase.auth().signInWithEmailAndPassword(username, password).then(() => {
 
 
     })
@@ -81,36 +81,21 @@ export function getUser(username) {
 
 
         snap.forEach(function (snap) {
-   
+
             var email = snap.child('Email_id').val();
+            var firstName = snap.child('FirstName').val();
+            var lastName = snap.child('LastName').val();
             var key = snap.key;
             var d = {
                 email: email,
-                key: key
+                key: key,
+                firstName: firstName,
+                lastName: lastName
             }
             AsyncStorage.setItem('Data', JSON.stringify(d));
-            AsyncStorage.setItem('Email',JSON.stringify(d))
-            // AsyncStorage.setItem('userKey',key);
-            console.log("Email===="+email);
-            console.log("user key ====" +key );
-        //      var e=AsyncStorage.getItem('Data')
-        //     var email_id=JSON.parse(e);
-        //     var a=email_id.key;
-        //    // var u=AsyncStorage.getItem('userkey');
-
-           
-        //     // console.log("Email   dfs====" + email_id);
-        //     console.log("user key fsf====" + a);
-        //     // console.log("d   "+ d);
-            
-            
-
-            // localStorage.setItem("Email", email);
-            // localStorage.setItem("userKey", key);
-            // localStorage.setItem("FirstName", fname);
-            // localStorage.setItem("LastName", lname);
-
-
+            AsyncStorage.setItem('Email', JSON.stringify(d));
+            AsyncStorage.setItem('firstName', JSON.stringify(d));
+            AsyncStorage.setItem('lastName', JSON.stringify(d));
 
 
         })
@@ -166,8 +151,7 @@ export async function insertNotes(title, description, isReminder, isCollaborator
     var e = await AsyncStorage.getItem('Data')
     var email_id = JSON.parse(e);
     var a = email_id.key;
-    console.warn("collb in database in more --- " + isCollaborator);
-    console.warn("label in database --- " +label);
+
 
     arr.push(label);
     var arrData = {
@@ -181,20 +165,20 @@ export async function insertNotes(title, description, isReminder, isCollaborator
         Pinned: isPinned,
         Trash: isTrash,
         label: label,
-        userid:a
-        
+        userid: a
+
     }
     console.warn("collb in database in more --- " + arrData.Collaborator);
-    console.warn("label in database --- " +arrData.label);
+    console.warn("label in database --- " + arrData.label);
 
-  // database.database.ref("/notes").push(arrData);
-    console.log("ttt"+arrData);
+    // database.database.ref("/notes").push(arrData);
+    console.log("ttt" + arrData);
     if (label) {
         arr.map(async (noteData, index) => {
             var lblArrData = {
                 name: noteData,
-                userId:arrData.userid
-                
+                userId: arrData.userid
+
             }
             var varLbl = await database.database.ref("/label").push(lblArrData);
             var key = await varLbl.child("/label").push().getKey();
@@ -205,7 +189,7 @@ export async function insertNotes(title, description, isReminder, isCollaborator
     }
 
 
-await database.database.ref("/notes").push(arrData);
+    await database.database.ref("/notes").push(arrData);
 }
 
 
@@ -213,17 +197,30 @@ export async function getNotes(callback) {
     var e = await AsyncStorage.getItem('Data')
     var email_id = JSON.parse(e);
     var a = email_id.key;
-    console.log("getNotes"+a);
-
+    console.log("getNotes" + a);
+    
     database.database.ref('/notes').orderByChild('userid').equalTo(a).on("value", function (snap) {
 
         var value = snap.val();
-        console.log("value-----"+snap.val());
+        console.log("value-----" + snap.val());
+       // var items = snapshotToArray(snap);
+    
+      //  console.log("+hgvhgvgh"+JSON.parse(JSON.stringify(items)));
         
-
         return callback(value);
 
     })
+    // snapshotToArray = snapshot => {
+    //     let returnArr = [];
+
+    //     snapshot.forEach(childSnapshot => {
+    //         let item = childSnapshot.val();
+    //         item.key = childSnapshot.key;
+    //         returnArr.push(item);
+    //     });
+
+    //     return returnArr;
+    // };
 
 }
 export function getLabel() {
@@ -291,8 +288,8 @@ export function deleteNotes(note, key) {
 
 }
 export function colorNote(color, note, key) {
-    console.log("color in database ------ "+color);
-    
+    console.log("color in database ------ " + color);
+
 
     note = {
         Colors: color
@@ -315,7 +312,7 @@ export function trashNote(note, key) {
 }
 export function editReminder(d, note, key) {
 
-console.log("reminder in database  ",d);
+    console.log("reminder in database  ", d);
 
 
     note = {
