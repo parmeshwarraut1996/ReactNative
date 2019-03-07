@@ -14,7 +14,7 @@ export default class Profile extends Component {
             firstName: '',
             lastName: '',
             email: '',
-            imageSorce:''
+            imageSorce: null
 
         }
     }
@@ -32,17 +32,21 @@ export default class Profile extends Component {
         var fName = userDetail.firstName;
         var lName = userDetail.lastName;
         var email = userDetail.email;
-        console.log("faname i before setstate--- " + fName);
-        var url=await storageRef.storageRef.child('/profile/'+this.state.email).getDownloadURL().then(function(url){
-            
-        })
+
+        var url = await storageRef.storageRef.child('/profile/' + this.state.email).getDownloadURL().then(function (url) {
+
+
+        }, function (error) {
+            console.log("error" + error);
+
+        });
 
         this.setState({
             firstName: fName,
             lastName: lName,
-            email: email
+            email: email,
+            imageSorce: this.url
         })
-        console.log("faname aftersetstate --- " + this.state.firstName);
 
 
     }
@@ -50,6 +54,43 @@ export default class Profile extends Component {
         this.setState({
             open: false
         })
+    }
+    uploadProfilePicture() {
+        const options = {
+            quality: 1.0,
+            maxWidth: 300,
+            maxHeight: 300,
+            storageOptions: {
+                skipBackup: true
+            }
+        };
+
+        ImagePicker.showImagePicker(options, (response) => {
+            console.warn('Response = ', response);
+
+            if (response.didCancel) {
+                console.log('User cancelled photo picker');
+            }
+            else if (response.error) {
+                console.log('ImagePicker Error: ', response.error);
+            }
+            else if (response.customButton) {
+                console.log('User tapped custom button: ', response.customButton);
+            }
+            else {
+                let source = { uri: response.uri };
+
+                this.setState({
+                    imageSource: source
+                })
+
+                var blob = new Blob([this.state.imageSource], { type: "image/jpeg" });
+                var storageUrl = '/profile' + this.state.firstName;
+                var ref = storageRef.storageRef.child('/profile/' + this.state.email).put(blob);
+
+
+            }
+        });
     }
 
     render() {
@@ -60,9 +101,10 @@ export default class Profile extends Component {
                 <TouchableOpacity onPress={(event) => this.openModal(event)}>
                     <View>
                         <Avatar
-
-                            rounded title=""
-                            overlayContainerStyle={{ backgroundColor: 'orange' }} />
+                            source={this.state.imageSource}
+                            rounded
+                        >
+                        </Avatar>
                     </View>
                 </TouchableOpacity>
                 <Modal visible={this.state.open} >
@@ -71,7 +113,7 @@ export default class Profile extends Component {
                         <View style={{ flexDirection: 'row' }}>
 
                             <Avatar size="large"
-
+                                source={this.state.imageSource}
                                 rounded
                             />
 
@@ -95,7 +137,7 @@ export default class Profile extends Component {
                                     </View>
                                 </View>
                                 <View style={{ marginTop: 50 }}>
-                                    <Button title="Change profile picture"></Button>
+                                    <Button title="Change profile picture" onPress={() => this.uploadProfilePicture()}></Button>
                                 </View>
                                 <View style={{ marginTop: 10 }}>
                                     <Button title="Close"
