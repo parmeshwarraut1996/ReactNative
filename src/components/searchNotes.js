@@ -1,6 +1,6 @@
 
 import React, { Component } from 'react';
-import { View, Image, TouchableOpacity, Text, TextInput } from 'react-native';
+import { View, Image, TouchableOpacity, Text, TextInput, ScrollView } from 'react-native';
 import { TextField } from 'react-native-material-textfield';
 
 import styles from '../stylesheet.js'
@@ -52,28 +52,29 @@ export default class SearchNotes extends Component {
 
 
     filterSearch(text) {
-var NoteData=[];
+        var NoteData = [];
         if (text.toString().length >= 1) {
             this.setState({ isSearching: true });
-           var noteData=Object.keys(this.state.notes).map((note)=>{
-          
-            var key = note;
-             NoteData.push(this.state.notes[key]);
-            const newData = NoteData.filter(function (item) {
-                return item.Title.toLowerCase().contains(text.toLowerCase()) || item.Title.toLowerCase().contains(text.toLowerCase());
-            });
-            this.setState({
-                filterArray: newData,
-            });
-            
-        }) } else {
+            var noteData = Object.keys(this.state.notes).map((note) => {
+
+                var key = note;
+                NoteData.push(this.state.notes[key]);
+                const newData = NoteData.filter(function (item) {
+                    return item.Title.toLowerCase().contains(text.toLowerCase()) || item.Title.toLowerCase().contains(text.toLowerCase());
+                });
+                this.setState({
+                    filterArray: newData,
+                });
+
+            })
+        } else {
             this.setState({ isSearching: false });
         }
 
     }
 
     render() {
-       
+
         var finalArray = !this.state.isSearching ? this.state.notes : this.state.filterArray;
 
         return (
@@ -88,7 +89,7 @@ var NoteData=[];
                     </TouchableOpacity>
                     <View style={{ marginLeft: 20 }}>
                         <TextInput placeholder="search your notes"
-                           // value={this.state.text}
+                            // value={this.state.text}
                             onChangeText={(text) => { this.filterSearch(text) }}
 
                         >
@@ -98,12 +99,11 @@ var NoteData=[];
 
                 </View>
 
-
-                <View>
-                    {Object.keys(finalArray).map((note) => {
-                        var key = note;
-                        var NoteData = finalArray[key];
-                        if ((NoteData.Trash !== true && NoteData.Archive !== true && NoteData.Pinned !== true)) {
+                <ScrollView>
+                    <View>
+                        {Object.keys(finalArray).map((note) => {
+                            var key = note;
+                            var NoteData = finalArray[key];
                             return (
 
                                 <DisplayCards note={NoteData}
@@ -114,9 +114,10 @@ var NoteData=[];
 
                             )
                         }
-                    })
-                    }
-                </View>
+                        )
+                        }
+                    </View>
+                </ScrollView>
 
             </View>
 

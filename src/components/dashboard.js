@@ -1,12 +1,10 @@
 import React, { Component } from 'react';
-import { Text, View, Image, ScrollView, TouchableOpacity, ActivityIndicator } from 'react-native';
+import { Text, View, Image, ScrollView, TouchableOpacity, ActivityIndicator, Animated, PanResponder } from 'react-native';
 import { Card, Avatar } from 'react-native-elements';
 import styles from '../stylesheet.js'
-import { NoteView } from './noteview.js';
+
 import { DrawerActions } from "react-navigation";
-import MyHomeScreen from './home.js';
-import MyNotificationsScreen from './notification.js';
-import { AsyncStorage } from 'react-native'
+
 import DisplayCards from './displayCards.js';
 import { getNotes } from '../services/databasecontroller.js';
 import Profile from './profile.js';
@@ -18,7 +16,8 @@ export default class Dashboard extends Component {
         this.state = {
             open: false,
             notes: [],
-            showProgessbar: true
+            showProgessbar: true,
+            pan: new Animated.ValueXY()
 
         }
         console.disableYellowBox = true;
@@ -44,16 +43,28 @@ export default class Dashboard extends Component {
     componentWillMount() {
         setTimeout(() => {
             this.setState({
-                 showProgessbar: false
+                showProgessbar: false
             })
 
-        }, 2000)
-    }
+        }, 2000);
 
+    //     this._panResponder = PanResponder.create({
+    //         onPanResponderGrant: (e, gestureState) => {
+    //             this.state.pan.setOffset({x: this.state.pan.x._value, y: this.state.pan.y._value});
+    //         },
+    //         onPanResponderMove: Animated.event([
+    //           null, {dx: this.state.pan.x, dy: this.state.pan.y},
+    //         ]),
+      
+    //         onPanResponderRelease: (e, {vx, vy}) => {
+    //           this.state.pan.flattenOffset()
+    //         }
+    //   });
+    }
 
     navigateNote(event) {
 
-                this.props.navigation.navigate("note");
+        this.props.navigation.navigate("note");
 
     }
     gridView(event) {
@@ -79,10 +90,16 @@ export default class Dashboard extends Component {
     render() {
         var noteArray = [];
         var pinArray = [];
+        var DATA = []
+        var noteCount = 0;
+        var pinCount = 0;
+        var archiveCount = 0;
+        var trashCount = 0;
         noteArray = Object.keys(this.state.notes).map((note) => {
-            var key = note;
+            var key = note
             var NoteData = this.state.notes[key];
             if ((NoteData.Trash !== true && NoteData.Archive !== true && NoteData.Pinned !== true)) {
+
                 return (
 
                     <DisplayCards note={NoteData}
@@ -94,11 +111,44 @@ export default class Dashboard extends Component {
                 )
             }
         })
+        // DATA = noteArray.map((_, i) => ({
+        //     id: `item_${i}`,
+        //     height: Math.round(Math.random() * 100 + 50),
 
+        // }))
+        Object.keys(this.state.notes).map((note) => {
+            var key = note
+            var NoteData = this.state.notes[key];
+            if ((NoteData)) {
+                noteCount++;
+            }
+        })
+        Object.keys(this.state.notes).map((note) => {
+            var key = note;
+            var NoteData = this.state.notes[key];
+            if ((NoteData.Pinned === true)) {
+                pinCount++;
+            }
+        })
+        Object.keys(this.state.notes).map((note) => {
+            var key = note;
+            var NoteData = this.state.notes[key];
+            if ((NoteData.Trash === true)) {
+                trashCount++;
+            }
+        })
+        Object.keys(this.state.notes).map((note) => {
+            var key = note;
+            var NoteData = this.state.notes[key];
+            if ((NoteData.Archive === true)) {
+                archiveCount++;
+            }
+        })
         pinArray = Object.keys(this.state.notes).map((note) => {
             var key = note;
             var NoteData = this.state.notes[key];
             if ((NoteData.Pinned === true)) {
+
                 return (
 
                     <DisplayCards note={NoteData}
@@ -109,7 +159,12 @@ export default class Dashboard extends Component {
 
                 )
             }
-        })
+        });
+        // const panStyle = {
+        //     // transform: this.state.pan.getTranslateTransform()
+        //     transform:this.state.pan.getTranslateTransform()
+        // }
+
 
         return (
             <View style={styles.progressBar}>
@@ -124,7 +179,7 @@ export default class Dashboard extends Component {
                                 <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
 
                                     <TouchableOpacity
-                                        onPress={() => { this.props.navigation.dispatch(DrawerActions.openDrawer())}}>
+                                        onPress={() => { this.props.navigation.dispatch(DrawerActions.openDrawer()) }}>
 
                                         <Image source={require('../assets/menu.png')}
                                             style={styles.Icon} />
@@ -148,18 +203,33 @@ export default class Dashboard extends Component {
                                             </View>
                                         )}
 
-                                        <Profile/>
-                                   
+                                    <Profile notes={noteCount}
+                                        pin={pinCount}
+                                        trash={trashCount}
+                                        archive={archiveCount} />
+
                                 </View>
                             </Card>
                         </View>
 
+                        {/* <MasonryList
+                            data={DATA}
+                            renderItem={({ item }) => <Cell item={item} />}
+                            getHeightForItem={({ item }) => item.height + 2}
+                            numColumns={2}
+                        /> */}
+                        {/* <Animated.View
+                            {...this._panResponder.panHandlers}
+                        > */}
+
                         <ScrollView >
+
 
                             {pinArray !== null ?
                                 (<View style={{ flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between' }}>
 
                                     {noteArray}
+
                                 </View>
                                 ) : (
                                     <View style={{ flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between' }}>
@@ -169,6 +239,7 @@ export default class Dashboard extends Component {
 
 
                         </ScrollView>
+                        {/* </Animated.View> */}
 
                         <View style={styles.b}>
                             {/* <Card containerStyle={styles.bottomView}> */}
@@ -223,13 +294,3 @@ export default class Dashboard extends Component {
         );
     }
 }
-// const MyDrawerNavigator = createDrawerNavigator({
-//     Home: {
-//         screen: MyHomeScreen,
-//     },
-//     Notifications: {
-//         screen: MyNotificationsScreen,
-//     },
-// });
-
-// export const AppNavigatorDrawer = createAppContainer(MyDrawerNavigator);

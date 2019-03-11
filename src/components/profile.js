@@ -5,6 +5,19 @@ import { Avatar } from 'react-native-elements';
 import { AsyncStorage } from 'react-native'
 import ImagePicker from 'react-native-image-picker';
 import storageRef from '../Firebase'
+import {
+    LineChart,
+    BarChart,
+    PieChart,
+    ProgressChart,
+    ContributionGraph
+} from 'react-native-chart-kit'
+const chartConfig = {
+    backgroundGradientFrom: '#1E2923',
+    backgroundGradientTo: '#08130D',
+    color: (opacity = 1) => `rgba(26, 255, 146, ${opacity})`,
+    strokeWidth: 2 // optional, default 3
+}
 
 export default class Profile extends Component {
     constructor(props) {
@@ -14,7 +27,8 @@ export default class Profile extends Component {
             firstName: '',
             lastName: '',
             email: '',
-            imageSorce: null
+            imageSorce: null,
+            piedata: []
 
         }
     }
@@ -40,13 +54,33 @@ export default class Profile extends Component {
             console.log("error" + error);
 
         });
+        var noteCount = 0;
+        var pinNotes = 0;
+        var archiveNotes = 0;
+        var trashNotes = 0;
+        noteCount = parseInt(this.props.notes);
+        pinNotes = parseInt(this.props.pin);
+        archiveNotes=parseInt(this.props.archive);
+        trashNotes=parseInt(this.props.trash);
+
+        const data = [
+            { name: 'Pinned', count: pinNotes, color: 'red', legendFontColor: '#7F7F7F', legendFontSize: 15 },
+            { name: 'Trashed', count: trashNotes, color: 'green', legendFontColor: '#7F7F7F', legendFontSize: 15 },
+            { name: 'Archived', count: archiveNotes, color: 'blue', legendFontColor: '#7F7F7F', legendFontSize: 15 },
+            { name: 'Notes', count: noteCount, color: 'yellow', legendFontColor: '#7F7F7F', legendFontSize: 15 },
+
+        ]
 
         this.setState({
             firstName: fName,
             lastName: lName,
             email: email,
-            imageSorce: this.url
+            imageSorce:url,
+            piedata: data
         })
+
+
+
 
 
     }
@@ -94,6 +128,8 @@ export default class Profile extends Component {
     }
 
     render() {
+
+
 
 
         return (
@@ -145,10 +181,19 @@ export default class Profile extends Component {
 
                                     </Button>
                                 </View>
+
                             </View>
 
                         </View>
-
+                        <PieChart
+                            data={this.state.piedata}
+                            width={400}
+                            height={220}
+                            chartConfig={chartConfig}
+                            accessor="count"
+                            backgroundColor="transparent"
+                            paddingLeft="10"
+                        />
 
                     </View>
 
